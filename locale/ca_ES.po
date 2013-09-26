@@ -1,0 +1,104 @@
+# 
+msgid ""
+msgstr "Content-Type: text/plain; charset=utf-8\n"
+
+msgctxt "error:account.payment.group:"
+msgid "Can not generate export file, there are not payment lines."
+msgstr ""
+"No es pot generar el fitxer d'exportació, no hi han línies de pagament."
+
+msgctxt "error:account.payment.group:"
+msgid "Configuration Error!"
+msgstr "Error de configuració!"
+
+msgctxt "error:account.payment.group:"
+msgid "The bank account number of the company %s is not correct."
+msgstr "El número de compte bancari de la companyia %s no es correcte."
+
+msgctxt "error:account.payment.group:"
+msgid "The bank account number of the party %s is not correct."
+msgstr "El número de compte bancari del tercer %s no es correcte."
+
+msgctxt "error:account.payment.group:"
+msgid ""
+"The bank account number of the party %s is not defined and current payment "
+"journal enforces all lines to have a bank account."
+msgstr ""
+"El número de compte bancari del tercer %s no està definit i l'actual diari "
+"de pagament força a que totes les línies tingun un."
+
+msgctxt "error:account.payment.group:"
+msgid "The bank account of the company %s is not defined."
+msgstr "No està definit el número de compte bancari de la companyia %s."
+
+msgctxt "error:account.payment.group:"
+msgid "The company %s has no a complete address to add to the file."
+msgstr "La companyia %s no té una adreça complerta per afegir al fitxer."
+
+msgctxt "error:account.payment.group:"
+msgid "The company have not any VAT number defined."
+msgstr "La companyia not té cap CIF/NIF definit."
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any province assigned at its address"
+msgstr "El tercer %s no té una provincia assignada a la seva adreça."
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any vat number."
+msgstr "El tercer %s no té cap CIF/NIF."
+
+msgctxt "error:account.payment.group:"
+msgid "The payment journal has no norm to build a file."
+msgstr "El diari de pagament no té una norma per construir el fitxer."
+
+msgctxt "error:account.payment.group:"
+msgid "Unknown error. An error occurred creating the file."
+msgstr "Error desconegut. S'ha produït un error creant el fitxer."
+
+msgctxt "error:account.payment.group:"
+msgid "remittance"
+msgstr "remesa"
+
+msgctxt "field:account.payment.group,join:"
+msgid "Join lines"
+msgstr "Ajunta línies"
+
+msgctxt "field:account.payment.group,planned_date:"
+msgid "Planned Date"
+msgstr "Data de planificació"
+
+msgctxt "field:account.payment.journal,ine_code:"
+msgid "INE code"
+msgstr "Codi INE"
+
+msgctxt "field:account.payment.journal,require_bank_account:"
+msgid "Require bank account"
+msgstr "Requereix compte bancari"
+
+msgctxt "field:account.payment.journal,suffix:"
+msgid "Suffix"
+msgstr "Sufix"
+
+msgctxt "field:account.payment.process.start,join:"
+msgid "Join lines"
+msgstr "Ajunta línies"
+
+msgctxt "field:account.payment.process.start,planned_date:"
+msgid "Planned Date"
+msgstr "Data de planificació"
+
+msgctxt "help:account.payment.journal,require_bank_account:"
+msgid ""
+"If your bank allows you to send orders without the bank account info, you "
+"may disable this option."
+msgstr ""
+"Si el vostre banc us permet enviar ordres de pagament sense la informació "
+"del compte bancari, podeu desactivar aquesta opció."
+
+msgctxt "help:account.payment.process.start,join:"
+msgid "Join payment lines of the same bank account."
+msgstr "Ajunta línies de pagament del mateix compte bancari"
+
+msgctxt "help:account.payment.process.start,planned_date:"
+msgid "Date when the payment entity must process the payment order."
+msgstr "Data a la que l'entitat ha de processar l'ordre de pagament."

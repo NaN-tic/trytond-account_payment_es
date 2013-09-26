@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!-- This file is part account_payment_es module for Tryton.
+The COPYRIGHT file at the top level of this repository contains the full
+copyright notices and license terms. -->
+<data>
+    <xpath expr="/form/field[@name=&quot;payment_type&quot;]"
+            position="after">
+        <label name="require_bank_account"/>
+        <field name="require_bank_account"/>
+        <label name="suffix"/>
+        <field name="suffix"/>
+        <label name="ine_code"/>
+        <field name="ine_code"/>
+    </xpath>
+</data>
