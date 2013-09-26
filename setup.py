@@ -45,7 +45,7 @@ setup(name='%s_%s' % (PREFIX, MODULE),
     author='Zikzakmedia SL',
     author_email='zikzak@zikzakmedia.com',
     url='http://www.zikzakmedia.com',
-    download_url="https://bitbucket.org/trytonspain/trytond-carrier_api",
+    download_url="https://bitbucket.org/trytonspain/trytond-account_payment_es",
     package_dir={'trytond.modules.%s' % MODULE: '.'},
     packages=[
         'trytond.modules.%s' % MODULE,
