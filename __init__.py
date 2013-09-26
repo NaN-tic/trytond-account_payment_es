@@ -4,7 +4,6 @@
 from trytond.pool import Pool
 from .payment import *
 
-
 def register():
     Pool.register(
         Journal,
