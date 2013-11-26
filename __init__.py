@@ -12,4 +12,4 @@ def register():
         module='account_payment_es', type_='model')
     Pool.register(
         ProcessPayment,
-        module='account_payment', type_='wizard')
+        module='account_payment_es', type_='wizard')
