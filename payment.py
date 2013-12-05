@@ -134,6 +134,10 @@ class Group:
                     'the file.'),
                 'remittance': 'remittance',
                 'configuration_error': ('Configuration Error!'),
+                'payment_without_bank_account': (
+                    'The payment "%s" doesn\'t have bank account.'),
+                'party_without_bank_account': (
+                    'The party "%s" doesn\'t have bank account.'),
                 })
 
     def set_default_payment_values(self):
@@ -205,6 +209,10 @@ class Group:
                 else:
                     parties_bank_accounts[key].append(payment)
             for party_bank_account in parties_bank_accounts:
+                if not party_bank_account or not party_bank_account[1]:
+                    self.raise_user_error('party_without_bank_account',
+                        party_bank_account and party_bank_account[0]
+                            and party_bank_account[0].rec_name)
                 amount = 0
                 communication = ''
                 date = False
@@ -227,6 +235,7 @@ class Group:
                         create_date = payment.create_date
                     if not date_created or date_created < payment.date:
                         date_created = payment.date
+
                 vals = {
                     'party': party_bank_account[0],
                     'bank_account': party_bank_account[1],
@@ -254,7 +263,7 @@ class Group:
                             or False)
                     vals['subdivision'] = address.subdivision or False
                     vals['state'] = (vals['subdivision']
-                            and vals['subdivision'].name or False)
+                            and vals['subdivision'].name or '')
                     vals['province'] = province[vals['subdivision'].code
                             if (vals['subdivision']
                                 and vals['subdivision'].type == 'province')
@@ -264,6 +273,9 @@ class Group:
         else:
             # Each payment is a receipt
             for payment in payments:
+                if not payment.bank_account:
+                    self.raise_user_error('payment_without_bank_account',
+                        payment.rec_name)
                 party = payment.party
                 amount = payment.amount
                 vals = {
@@ -293,7 +305,7 @@ class Group:
                         vals['country_code'] = vals['country'].code or False
                     vals['subdivision'] = address.subdivision or False
                     if vals['subdivision']:
-                        vals['state'] = vals['subdivision'].name or False
+                        vals['state'] = vals['subdivision'].name or ''
                     vals['province'] = province[vals['subdivision'].code
                             if (vals['subdivision']
                                 and vals['subdivision'].type == 'province')
