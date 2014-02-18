@@ -5,7 +5,9 @@
 from trytond.model import fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
+from trytond.transaction import Transaction
 import banknumber
+
 __all__ = [
     'Journal',
     'Group',
@@ -98,8 +100,12 @@ class Journal:
 
 class Group:
     __name__ = 'account.payment.group'
-    join = fields.Boolean('Join lines', readonly=True)
-    planned_date = fields.Date('Planned Date', readonly=True)
+    join = fields.Boolean('Join lines', readonly=True,
+            depends=['process_method'])
+    planned_date = fields.Date('Planned Date', readonly=True,
+            depends=['process_method'])
+    process_method = fields.Function(fields.Char('Process Method'),
+            'get_process_method')
 
     @classmethod
     def __setup__(cls):
@@ -139,6 +145,9 @@ class Group:
                 'party_without_bank_account': (
                     'The party "%s" doesn\'t have bank account.'),
                 })
+
+    def get_process_method(self, name):
+        return self.journal.process_method
 
     def set_default_payment_values(self):
         pool = Pool()
@@ -343,19 +352,26 @@ class Group:
 
 class ProcessPaymentStart:
     __name__ = 'account.payment.process.start'
-    join = fields.Boolean('Join lines',
+    join = fields.Boolean('Join lines', depends=['process_method'],
         help='Join payment lines of the same bank account.')
-    planned_date = fields.Date('Planned Date',
+    planned_date = fields.Date('Planned Date', depends=['process_method'],
         help='Date when the payment entity must process the payment order.')
+    process_method = fields.Char('Process Method')
 
     @staticmethod
-    def default_planned_date():
-        Date = Pool().get('ir.date')
-        return Date.today()
+    def default_process_method():
+        pool = Pool()
+        Payment = pool.get('account.payment')
+        payments = Payment.browse(Transaction().context['active_ids'])
 
-    @staticmethod
-    def default_join():
-        return True
+        process_method = False
+        for payment in payments:
+            if not process_method:
+                process_method = payment.journal.process_method
+            else:
+                if process_method != payment.journal.process_method:
+                    return False
+        return process_method
 
 
 class ProcessPayment:
