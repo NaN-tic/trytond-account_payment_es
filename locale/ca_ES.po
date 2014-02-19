@@ -9,15 +9,15 @@ msgstr ""
 
 msgctxt "error:account.payment.group:"
 msgid "Configuration Error!"
-msgstr "Error de configuració!"
+msgstr "Error de configuració."
 
 msgctxt "error:account.payment.group:"
 msgid "The bank account number of the company %s is not correct."
-msgstr "El número de compte bancari de la companyia %s no es correcte."
+msgstr "El número de compte bancari de l'empresa %s no és correcte."
 
 msgctxt "error:account.payment.group:"
 msgid "The bank account number of the party %s is not correct."
-msgstr "El número de compte bancari del tercer %s no es correcte."
+msgstr "El número de compte bancari del tercer %s no és correcte."
 
 msgctxt "error:account.payment.group:"
 msgid ""
@@ -29,23 +29,39 @@ msgstr ""
 
 msgctxt "error:account.payment.group:"
 msgid "The bank account of the company %s is not defined."
-msgstr "No està definit el número de compte bancari de la companyia %s."
+msgstr "No s'ha definit el número de compte bancari de l'empresa %s."
 
 msgctxt "error:account.payment.group:"
 msgid "The company %s has no a complete address to add to the file."
-msgstr "La companyia %s no té una adreça complerta per afegir al fitxer."
+msgstr "L'empresa %s no té una adreça complerta per afegir al fitxer."
 
 msgctxt "error:account.payment.group:"
 msgid "The company have not any VAT number defined."
-msgstr "La companyia not té cap CIF/NIF definit."
+msgstr "L'empresa not té cap CIF/NIF definit."
+
+msgctxt "error:account.payment.group:"
+msgid "The party \"%s\" doesn't have bank account."
+msgstr "El tercer \"%s\" no té compte bancari."
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no a complete address to build the file."
+msgstr "El tercer %s no té cap adreça complerta per construir el fitxer."
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any address to add to the file"
+msgstr "El tercer %s no té cap adreça per afegir al fitxer."
 
 msgctxt "error:account.payment.group:"
 msgid "The party %s has no any province assigned at its address"
-msgstr "El tercer %s no té una provincia assignada a la seva adreça."
+msgstr "El tercer %s no té una província assignada a la seva adreça."
 
 msgctxt "error:account.payment.group:"
 msgid "The party %s has no any vat number."
 msgstr "El tercer %s no té cap CIF/NIF."
+
+msgctxt "error:account.payment.group:"
+msgid "The payment \"%s\" doesn't have bank account."
+msgstr "El pagament \"%s\" no té compte bancari."
 
 msgctxt "error:account.payment.group:"
 msgid "The payment journal has no norm to build a file."
@@ -89,16 +105,24 @@ msgstr "Data de planificació"
 
 msgctxt "help:account.payment.journal,require_bank_account:"
 msgid ""
-"If your bank allows you to send orders without the bank account info, you "
-"may disable this option."
+"If your bank allows you to send payment groups without the bank account "
+"info, you may disable this option."
 msgstr ""
-"Si el vostre banc us permet enviar ordres de pagament sense la informació "
+"Si el vostre banc us permet enviar grups de pagaments sense la informació "
 "del compte bancari, podeu desactivar aquesta opció."
 
 msgctxt "help:account.payment.process.start,join:"
 msgid "Join payment lines of the same bank account."
-msgstr "Ajunta línies de pagament del mateix compte bancari"
+msgstr "Ajunta línies de pagament del mateix compte bancari."
 
 msgctxt "help:account.payment.process.start,planned_date:"
-msgid "Date when the payment entity must process the payment order."
-msgstr "Data a la que l'entitat ha de processar l'ordre de pagament."
+msgid "Date when the payment entity must process the payment group."
+msgstr "Data a la que l'entitat ha de processar el grup de pagaments."
+
+msgctxt "view:account.payment.process.start:"
+msgid ""
+"If the planned date is set, the data field of all the payments will be "
+"updated with this date before creating the payment group."
+msgstr ""
+"Si s'introdueix la data de planificació, el camp data de tots els pagaments "
+"s'actualitzarà a aquesta data abans de crear el grup de pagaments."

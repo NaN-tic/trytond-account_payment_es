@@ -76,7 +76,7 @@ province = {
 class Journal:
     __name__ = 'account.payment.journal'
     require_bank_account = fields.Boolean('Require bank account',
-        help=('If your bank allows you to send orders without the bank '
+        help=('If your bank allows you to send payment groups without the bank '
             'account info, you may disable this option.'))
     suffix = fields.Char('Suffix', states={
             'required': Eval('process_method') != 'none'
@@ -355,7 +355,7 @@ class ProcessPaymentStart:
     join = fields.Boolean('Join lines', depends=['process_method'],
         help='Join payment lines of the same bank account.')
     planned_date = fields.Date('Planned Date', depends=['process_method'],
-        help='Date when the payment entity must process the payment order.')
+        help='Date when the payment entity must process the payment group.')
     process_method = fields.Char('Process Method')
 
     @staticmethod
