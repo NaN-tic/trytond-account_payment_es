@@ -378,9 +378,20 @@ class ProcessPayment:
     __name__ = 'account.payment.process'
 
     def _group_payment_key(self, payment):
-        res = []
-        for x in super(ProcessPayment, self)._group_payment_key(payment):
-            res.append(x)
+        res = list(super(ProcessPayment, self)._group_payment_key(payment))
         res.append(tuple(['join', self.start.join]))
-        res.append(tuple(['planned_date', self.start.planned_date]))
+        if self.start.planned_date:
+            res.append(tuple(['planned_date', self.start.planned_date]))
         return tuple(res)
+
+    def do_process(self, action):
+        pool = Pool()
+        Payment = pool.get('account.payment')
+        payments = Payment.browse(Transaction().context['active_ids'])
+
+        if self.start.planned_date:
+            for payment in payments:
+                payment.date = self.start.planned_date
+                payment.save()
+
+        return super(ProcessPayment, self).do_process(action)
