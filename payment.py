@@ -11,6 +11,7 @@ import banknumber
 __all__ = [
     'Journal',
     'Group',
+    'PayLine',
     'ProcessPaymentStart',
     'ProcessPayment',
     ]
@@ -348,6 +349,20 @@ class Group:
             'resource': '%s' % (self),
             }
         IrAttachment.create([values])
+
+
+class PayLine:
+    __name__ = 'account.move.line.pay'
+
+    def get_payment(self, line):
+        payment = super(PayLine, self).get_payment(line)
+        if line.origin:
+            origin = line.origin.rec_name
+            if not payment.description:
+                payment.description = origin
+            elif not origin in payment.description:
+                payment.description = origin + ' ' + payment.description
+        return payment
 
 
 class ProcessPaymentStart:
