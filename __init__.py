@@ -9,8 +9,10 @@ def register():
         Journal,
         Group,
         ProcessPaymentStart,
+        CreatePaymentGroupStart,
         module='account_payment_es', type_='model')
     Pool.register(
         PayLine,
         ProcessPayment,
+        CreatePaymentGroup,
         module='account_payment_es', type_='wizard')

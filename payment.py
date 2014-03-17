@@ -2,9 +2,10 @@
 # This file is part of account_payment_es module for Tryton.
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
-from trytond.model import fields
+from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
+from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.transaction import Transaction
 import banknumber
 
@@ -14,6 +15,8 @@ __all__ = [
     'PayLine',
     'ProcessPaymentStart',
     'ProcessPayment',
+    'CreatePaymentGroupStart',
+    'CreatePaymentGroup',
     ]
 __metaclass__ = PoolMeta
 
@@ -409,4 +412,88 @@ class ProcessPayment:
                 payment.date = self.start.planned_date
                 payment.save()
 
-        return super(ProcessPayment, self).do_process(action)
+        with Transaction().set_context(join_payments=self.start.join):
+            return super(ProcessPayment, self).do_process(action)
+
+
+class CreatePaymentGroupStart(ModelView):
+    'Create Payment Group Start'
+    __name__ = 'account.move.line.create_payment_group.start'
+    journal = fields.Many2One('account.payment.journal', 'Journal',
+        required=True,
+        domain=[
+            ('company', '=', Eval('context', {}).get('company', -1)),
+            ('payment_type', '=', Eval('payment_type', -1)),
+            ],
+        depends=['payment_type'])
+    payment_type = fields.Many2One('account.payment.type', 'Payment Type')
+    join = fields.Boolean('Join lines',
+        help='Join payment lines of the same bank account.')
+    planned_date = fields.Date('Planned Date',
+        help='Date when the payment entity must process the payment group.')
+
+    @classmethod
+    def __setup__(cls):
+        super(CreatePaymentGroupStart, cls).__setup__()
+        cls._error_messages.update({
+                'different_payment_types': ('Payment types can not be mixed on'
+                    ' payment groups. Payment Type "%s" of line "%s" is '
+                    'diferent from previous payment types "%s"')
+                })
+
+    @classmethod
+    def default_get(cls, fields, with_rec_name=True):
+        pool = Pool()
+        Line = pool.get('account.move.line')
+        Journal = pool.get('account.payment.journal')
+
+        res = super(CreatePaymentGroupStart, cls).default_get(fields,
+            with_rec_name)
+
+        payment_type = None
+        for line in Line.browse(Transaction().context.get('active_ids')):
+            if not payment_type:
+                payment_type = line.payment_type
+            elif payment_type != line.payment_type:
+                cls.raise_user_error('different_payment_types', (
+                        line.payment_type and line.payment_type.rec_name or '',
+                        line.rec_name, payment_type.rec_name))
+        res['payment_type'] = payment_type and payment_type.id
+        journals = Journal.search([
+                ('payment_type', '=', payment_type)
+                ])
+        if journals and len(journals) == 1:
+            res['journal'] = journals[0].id
+        return res
+
+
+class CreatePaymentGroup(Wizard):
+    'Create Payment Group'
+    __name__ = 'account.move.line.create_payment_group'
+    start = StateView('account.move.line.create_payment_group.start',
+        'account_payment_es.move_line_create_payment_group_start_view_form', [
+            Button('Cancel', 'end', 'tryton-cancel'),
+            Button('Create', 'create_', 'tryton-ok', default=True),
+            ])
+    create_ = StateAction('account_payment.act_payment_group_form')
+
+    def do_create_(self, action):
+        pool = Pool()
+        PayLine = pool.get('account.move.line.pay', type='wizard')
+        ProcessPayment = pool.get('account.payment.process', type='wizard')
+
+        session_id, _, _ = PayLine.create()
+        payline = PayLine(session_id)
+        payline.start.journal = self.start.journal
+        payline.start.approve = True
+        action, data = payline.do_pay(action)
+        PayLine.delete(session_id)
+
+        with Transaction().set_context(active_ids=data['res_id']):
+            session_id, _, _ = ProcessPayment.create()
+            processpayment = ProcessPayment(session_id)
+            processpayment.start.join = self.start.join
+            processpayment.start.planned_date = self.start.planned_date
+            action, data = processpayment.do_process(action)
+            ProcessPayment.delete(session_id)
+            return action, data

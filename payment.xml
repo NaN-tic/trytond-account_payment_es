@@ -30,5 +30,24 @@ copyright notices and license terms. -->
                 ref="account_payment.payment_process_start_view_form"/>
             <field name="name">payment_process_start_form</field>
         </record>
+
+        <record model="ir.ui.view"
+            id="move_line_create_payment_group_start_view_form">
+            <field name="model">account.move.line.create_payment_group.start</field>
+            <field name="type">form</field>
+            <field name="name">move_line_create_payment_group_start_form</field>
+        </record>
+
+        <record model="ir.action.wizard" id="act_create_payment_group_line">
+            <field name="name">Create Payment Groups</field>
+            <field name="wiz_name">account.move.line.create_payment_group</field>
+            <field name="model">account.move.line</field>
+        </record>
+        <record model="ir.action.keyword"
+            id="act_create_payment_group_line_keyword1">
+            <field name="keyword">form_action</field>
+            <field name="model">account.move.line,-1</field>
+            <field name="action" ref="act_create_payment_group_line"/>
+        </record>
     </data>
 </tryton>

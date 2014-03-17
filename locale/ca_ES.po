@@ -2,6 +2,15 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
+msgctxt "error:account.move.line.create_payment_group.start:"
+msgid ""
+"Payment types can not be mixed on payment groups. Payment Type \"%s\" of "
+"line \"%s\" is diferent from previous payment types \"%s\""
+msgstr ""
+"No es poden barrejar tipus de pagament en un sol grup de pgaments. El tipus "
+"de pagament \"%s\" de la línia \"%s\" es diferent del tipus de pagament "
+"utlitzat anteriorment \"%s\"."
+
 msgctxt "error:account.payment.group:"
 msgid "Can not generate export file, there are not payment lines."
 msgstr ""
@@ -44,14 +53,6 @@ msgid "The party \"%s\" doesn't have bank account."
 msgstr "El tercer \"%s\" no té compte bancari."
 
 msgctxt "error:account.payment.group:"
-msgid "The party %s has no a complete address to build the file."
-msgstr "El tercer %s no té cap adreça complerta per construir el fitxer."
-
-msgctxt "error:account.payment.group:"
-msgid "The party %s has no any address to add to the file"
-msgstr "El tercer %s no té cap adreça per afegir al fitxer."
-
-msgctxt "error:account.payment.group:"
 msgid "The party %s has no any province assigned at its address"
 msgstr "El tercer %s no té una província assignada a la seva adreça."
 
@@ -75,6 +76,26 @@ msgctxt "error:account.payment.group:"
 msgid "remittance"
 msgstr "remesa"
 
+msgctxt "field:account.move.line.create_payment_group.start,id:"
+msgid "ID"
+msgstr "Identificador"
+
+msgctxt "field:account.move.line.create_payment_group.start,join:"
+msgid "Join lines"
+msgstr "Ajunta línies"
+
+msgctxt "field:account.move.line.create_payment_group.start,journal:"
+msgid "Journal"
+msgstr "Diari"
+
+msgctxt "field:account.move.line.create_payment_group.start,payment_type:"
+msgid "Payment Type"
+msgstr "Tipus de pagament"
+
+msgctxt "field:account.move.line.create_payment_group.start,planned_date:"
+msgid "Planned Date"
+msgstr "Data estimada"
+
 msgctxt "field:account.payment.group,join:"
 msgid "Join lines"
 msgstr "Ajunta línies"
@@ -82,6 +103,10 @@ msgstr "Ajunta línies"
 msgctxt "field:account.payment.group,planned_date:"
 msgid "Planned Date"
 msgstr "Data de planificació"
+
+msgctxt "field:account.payment.group,process_method:"
+msgid ""
+msgstr ""
 
 msgctxt "field:account.payment.journal,ine_code:"
 msgid "INE code"
@@ -103,6 +128,18 @@ msgctxt "field:account.payment.process.start,planned_date:"
 msgid "Planned Date"
 msgstr "Data de planificació"
 
+msgctxt "field:account.payment.process.start,process_method:"
+msgid ""
+msgstr ""
+
+msgctxt "help:account.move.line.create_payment_group.start,join:"
+msgid "Join payment lines of the same bank account."
+msgstr "Ajunta línies de pagament del mateix compte bancari."
+
+msgctxt "help:account.move.line.create_payment_group.start,planned_date:"
+msgid "Date when the payment entity must process the payment group."
+msgstr "Data a la que l'entitat ha de processar el grup de pagaments."
+
 msgctxt "help:account.payment.journal,require_bank_account:"
 msgid ""
 "If your bank allows you to send payment groups without the bank account "
@@ -119,6 +156,18 @@ msgctxt "help:account.payment.process.start,planned_date:"
 msgid "Date when the payment entity must process the payment group."
 msgstr "Data a la que l'entitat ha de processar el grup de pagaments."
 
+msgctxt "model:account.move.line.create_payment_group.start,name:"
+msgid "Create Payment Group Start"
+msgstr "Inici crea grup de pagaments"
+
+msgctxt "model:ir.action,name:act_create_payment_group_line"
+msgid "Create Payment Groups"
+msgstr "Crea grup de pagaments"
+
+msgctxt "view:account.move.line.create_payment_group.start:"
+msgid "Create Payment Group"
+msgstr "Crea grup de pagaments"
+
 msgctxt "view:account.payment.process.start:"
 msgid ""
 "If the planned date is set, the data field of all the payments will be "
@@ -126,3 +175,11 @@ msgid ""
 msgstr ""
 "Si s'introdueix la data de planificació, el camp data de tots els pagaments "
 "s'actualitzarà a aquesta data abans de crear el grup de pagaments."
+
+msgctxt "wizard_button:account.move.line.create_payment_group,start,create_:"
+msgid "Create"
+msgstr "Crea"
+
+msgctxt "wizard_button:account.move.line.create_payment_group,start,end:"
+msgid "Cancel"
+msgstr "Cancel·lat"
