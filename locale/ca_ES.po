@@ -53,6 +53,14 @@ msgid "The party \"%s\" doesn't have bank account."
 msgstr "El tercer \"%s\" no té compte bancari."
 
 msgctxt "error:account.payment.group:"
+msgid "The party %s has no a complete address to build the file."
+msgstr "El tercer %s no disposa d'una adreça completa per generar el fitxer"
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any address to add to the file"
+msgstr "El tercer %s no disposa d'una adreça per afegir-la en el fitxer"
+
+msgctxt "error:account.payment.group:"
 msgid "The party %s has no any province assigned at its address"
 msgstr "El tercer %s no té una província assignada a la seva adreça."
 
@@ -105,8 +113,8 @@ msgid "Planned Date"
 msgstr "Data de planificació"
 
 msgctxt "field:account.payment.group,process_method:"
-msgid ""
-msgstr ""
+msgid "Process Method"
+msgstr "Mètode per processar"
 
 msgctxt "field:account.payment.journal,ine_code:"
 msgid "INE code"
@@ -129,8 +137,8 @@ msgid "Planned Date"
 msgstr "Data de planificació"
 
 msgctxt "field:account.payment.process.start,process_method:"
-msgid ""
-msgstr ""
+msgid "Process Method"
+msgstr "Mètode per processar"
 
 msgctxt "help:account.move.line.create_payment_group.start,join:"
 msgid "Join payment lines of the same bank account."
