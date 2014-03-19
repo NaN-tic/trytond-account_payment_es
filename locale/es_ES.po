@@ -52,6 +52,15 @@ msgid "The party \"%s\" doesn't have bank account."
 msgstr "El tercero \"%s\" no tiene cuenta bancaria."
 
 msgctxt "error:account.payment.group:"
+msgid "The party %s has no a complete address to build the file."
+msgstr ""
+"El tercero %s no dispone de una dirección completa para generar el fichero"
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any address to add to the file"
+msgstr "El tercero %s no dispone de una dirección para añadir en el fichero"
+
+msgctxt "error:account.payment.group:"
 msgid "The party %s has no any province assigned at its address"
 msgstr "El tercero %s no tiene una provincia asignada en su dirección."
 
@@ -104,8 +113,8 @@ msgid "Planned Date"
 msgstr "Fecha de planificación"
 
 msgctxt "field:account.payment.group,process_method:"
-msgid ""
-msgstr ""
+msgid "Process Method"
+msgstr "Metodo de proceso"
 
 msgctxt "field:account.payment.journal,ine_code:"
 msgid "INE code"
@@ -128,8 +137,8 @@ msgid "Planned Date"
 msgstr "Fecha de planificación"
 
 msgctxt "field:account.payment.process.start,process_method:"
-msgid ""
-msgstr ""
+msgid "Process Method"
+msgstr "Metodo de proceso"
 
 msgctxt "help:account.move.line.create_payment_group.start,join:"
 msgid "Join payment lines of the same bank account."
