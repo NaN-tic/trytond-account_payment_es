@@ -360,6 +360,7 @@ class PayLine:
     def get_payment(self, line):
         payment = super(PayLine, self).get_payment(line)
         payment.description = line.description
+        payment.date = line.maturity_date
         if line.origin:
             origin = line.origin.rec_name
             if not payment.description:
