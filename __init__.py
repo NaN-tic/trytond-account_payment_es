@@ -8,6 +8,7 @@ def register():
     Pool.register(
         Journal,
         Group,
+        PayLineStart,
         ProcessPaymentStart,
         CreatePaymentGroupStart,
         module='account_payment_es', type_='model')
