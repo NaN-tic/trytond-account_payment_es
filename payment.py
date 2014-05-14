@@ -79,6 +79,7 @@ province = {
 
 class Journal:
     __name__ = 'account.payment.journal'
+    active = fields.Boolean('Active', select=True)
     require_bank_account = fields.Boolean('Require bank account',
         help=('If your bank allows you to send payment groups without the bank '
             'account info, you may disable this option.'))
@@ -96,6 +97,10 @@ class Journal:
         cls.bank_account.states.update({
                 'required': Eval('process_method') != 'manual',
                 })
+
+    @staticmethod
+    def default_active():
+        return True
 
     @staticmethod
     def default_suffix():
