@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<!-- This file is part account_payment_es module for Tryton.
+The COPYRIGHT file at the top level of this repository contains the full
+copyright notices and license terms. -->
+<data>
+    <xpath expr="/tree/field[@name=&quot;process_method&quot;]"
+            position="after">
+        <field name="active" tree_invisible="1"/>
+    </xpath>
+</data>
