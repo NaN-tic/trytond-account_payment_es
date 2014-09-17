@@ -6,6 +6,7 @@ from .payment import *
 
 def register():
     Pool.register(
+        BankAccount,
         Journal,
         Group,
         PayLineStart,

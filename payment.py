@@ -10,6 +10,7 @@ from trytond.transaction import Transaction
 import banknumber
 
 __all__ = [
+    'BankAccount',
     'Journal',
     'Group',
     'PayLine',
@@ -76,6 +77,16 @@ province = {
     'ES-CE': '51',
     'ES-ML': '52',
     }
+
+
+class BankAccount:
+    __name__ = 'bank.account'
+
+    def get_first_other_number(self):
+        for number in self.numbers:
+            if number.type == 'other':
+                return number.number
+        return False
 
 
 class Journal:
@@ -176,7 +187,7 @@ class Group:
             self.raise_user_error('configuration_error',
                 error_description='bank_account_not_defined',
                 error_description_args=(values['name']))
-        code = bank_account.numbers[0].number
+        code = bank_account.get_first_other_number()
         if not banknumber.check_code('ES', code):
             self.raise_user_error('configuration_error',
                         error_description='wrong_bank_account',
@@ -202,7 +213,7 @@ class Group:
         values['vat_number'] = vat
         values['suffix'] = journal.suffix
         values['company_name'] = journal.company.party.name
-        values['bank_account'] = journal.bank_account
+        values['bank_account'] = journal.bank_account.get_first_other_number()
         values['ine_code'] = journal.ine_code
         values['amount'] = 0
 
@@ -257,7 +268,8 @@ class Group:
 
                 vals = {
                     'party': party_bank_account[0],
-                    'bank_account': party_bank_account[1],
+                    'bank_account':
+                        party_bank_account[1].get_first_other_number(),
                     'invoices': invoices,
                     'amount': amount,
                     'communication': communication,
@@ -299,7 +311,8 @@ class Group:
                 amount = payment.amount
                 vals = {
                     'party': party,
-                    'bank_account': payment.bank_account,
+                    'bank_account':
+                        payment.bank_account.get_first_other_number(),
                     'invoices': [payment.line and payment.line.origin or None],
                     'amount': amount,
                     'communication': '%s %s' % (payment.id,
@@ -333,13 +346,11 @@ class Group:
                 values['amount'] += abs(amount)
         if journal.require_bank_account:
             for receipt in receipts:
-                if not receipt['bank_account'] or not \
-                        receipt['bank_account'].numbers[0].number:
+                if not receipt['bank_account']:
                     self.raise_user_error('configuration_error',
                         error_description='customer_bank_account_not_defined',
                         error_description_args=(receipt['name'],))
-                if not banknumber.check_code('ES',
-                        receipt['bank_account'].numbers[0].number):
+                if not banknumber.check_code('ES', receipt['bank_account']):
                     self.raise_user_error('configuration_error',
                         error_description='wrong_party_bank_account',
                         error_description_args=(receipt['name'],))
