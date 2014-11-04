@@ -400,13 +400,12 @@ class PayLineStart:
                 })
 
     @classmethod
-    def default_get(cls, fields, with_rec_name=True, with_on_change=True):
+    def default_get(cls, fields, with_rec_name=True):
         pool = Pool()
         Line = pool.get('account.move.line')
         Journal = pool.get('account.payment.journal')
 
-        res = super(PayLineStart, cls).default_get(fields, with_rec_name,
-            with_on_change)
+        res = super(PayLineStart, cls).default_get(fields, with_rec_name)
 
         payment_type = None
         for line in Line.browse(Transaction().context.get('active_ids')):
@@ -498,13 +497,13 @@ class CreatePaymentGroupStart(ModelView):
                 })
 
     @classmethod
-    def default_get(cls, fields, with_rec_name=True, with_on_change=True):
+    def default_get(cls, fields, with_rec_name=True):
         pool = Pool()
         Line = pool.get('account.move.line')
         Journal = pool.get('account.payment.journal')
 
         res = super(CreatePaymentGroupStart, cls).default_get(fields,
-            with_rec_name, with_on_change)
+            with_rec_name)
 
         payment_type = None
         for line in Line.browse(Transaction().context.get('active_ids')):
