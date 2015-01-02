@@ -83,9 +83,14 @@ class BankAccount:
     __name__ = 'bank.account'
 
     def get_first_other_number(self):
+        iban = None
         for number in self.numbers:
             if number.type == 'other':
                 return number.number
+            elif not iban and number.type == 'iban':
+                iban = number.number
+        if iban:
+            return iban[4:].replace(' ', '')
         return False
 
 
@@ -188,7 +193,7 @@ class Group:
                 error_description='bank_account_not_defined',
                 error_description_args=(values['name']))
         code = bank_account.get_first_other_number()
-        if not banknumber.check_code('ES', code):
+        if not code or not banknumber.check_code('ES', code):
             self.raise_user_error('configuration_error',
                         error_description='wrong_bank_account',
                         error_description_args=(values['name'],))
