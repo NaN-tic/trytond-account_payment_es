@@ -91,7 +91,7 @@ class BankAccount:
                 iban = number.number
         if iban:
             return iban[4:].replace(' ', '')
-        return False
+        return None
 
 
 class Journal:
