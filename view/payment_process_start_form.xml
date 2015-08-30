@@ -9,6 +9,8 @@ copyright notices and license terms. -->
         <field name="join"/>
         <label name="planned_date"/>
         <field name="planned_date"/>
+        <label name="payments_amount"/>
+        <field name="payments_amount"/>
         <label string="If the planned date is set, the data field of all the payments will be updated with this date before creating the payment group."
             colspan="2" xalign="0.0" xexpand="1" id="planned_date_help"/>
     </xpath>

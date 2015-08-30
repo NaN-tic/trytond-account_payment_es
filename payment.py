@@ -8,6 +8,7 @@ from trytond.pyson import Eval
 from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.transaction import Transaction
 import banknumber
+from decimal import Decimal
 
 __all__ = [
     'BankAccount',
@@ -435,21 +436,40 @@ class ProcessPaymentStart:
     planned_date = fields.Date('Planned Date', depends=['process_method'],
         help='Date when the payment entity must process the payment group.')
     process_method = fields.Char('Process Method')
+    payments_amount = fields.Numeric('Payments Amount', digits=(16, 2),
+        readonly=True)
 
-    @staticmethod
-    def default_process_method():
+    @classmethod
+    def __setup__(cls):
+        super(ProcessPaymentStart, cls).__setup__()
+        cls._error_messages.update({
+                'different_process_method': ('Payment process method can not '
+                    'be mixed on payment groups. Payment process "%s" of line '
+                    '"%s" is diferent from previous payment process "%s"')
+                })
+
+    @classmethod
+    def default_get(cls, fields, with_rec_name=True):
         pool = Pool()
         Payment = pool.get('account.payment')
-        payments = Payment.browse(Transaction().context['active_ids'])
+
+        res = super(ProcessPaymentStart, cls).default_get(fields,
+            with_rec_name)
 
         process_method = False
-        for payment in payments:
+        payments_amount = Decimal('0.0')
+        for payment in Payment.browse(Transaction().context['active_ids']):
             if not process_method:
                 process_method = payment.journal.process_method
             else:
                 if process_method != payment.journal.process_method:
-                    return False
-        return process_method
+                    cls.raise_user_error('different_process_method', (
+                            payment.journal and payment.journal.process_method
+                            or '', payment.rec_name, process_method))
+            payments_amount += payment.amount
+        res['process_method'] = process_method
+        res['payments_amount'] = payments_amount
+        return res
 
 
 class ProcessPayment:
@@ -491,6 +511,8 @@ class CreatePaymentGroupStart(ModelView):
         help='Join payment lines of the same bank account.')
     planned_date = fields.Date('Planned Date',
         help='Date when the payment entity must process the payment group.')
+    payments_amount = fields.Numeric('Payments Amount', digits=(16, 2),
+        readonly=True)
 
     @classmethod
     def __setup__(cls):
@@ -511,6 +533,7 @@ class CreatePaymentGroupStart(ModelView):
             with_rec_name)
 
         payment_type = None
+        payments_amount = Decimal('0.0')
         for line in Line.browse(Transaction().context.get('active_ids')):
             if not payment_type:
                 payment_type = line.payment_type
@@ -518,7 +541,9 @@ class CreatePaymentGroupStart(ModelView):
                 cls.raise_user_error('different_payment_types', (
                         line.payment_type and line.payment_type.rec_name or '',
                         line.rec_name, payment_type.rec_name))
+            payments_amount += line.payment_amount
         res['payment_type'] = payment_type and payment_type.id
+        res['payments_amount'] = payments_amount
         journals = Journal.search([
                 ('payment_type', '=', payment_type)
                 ])

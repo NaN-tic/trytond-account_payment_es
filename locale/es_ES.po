@@ -1,4 +1,4 @@
-# 
+#
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
@@ -92,6 +92,15 @@ msgctxt "error:account.payment.group:"
 msgid "remittance"
 msgstr "remesa"
 
+msgctxt "error:account.payment.process.start:"
+msgid ""
+"Payment process method can not be mixed on payment groups. Payment process "
+"\"%s\" of line \"%s\" is diferent from previous payment process \"%s\""
+msgstr ""
+"No se pueden mezlar métodos de proceso de pagos en un mismo grup de pagos. "
+"El proceso de pago \"%s\" de la línea \"%s\" es diferente del proceso de "
+"pago usado anteriormente \"%s\"."
+
 msgctxt "field:account.move.line.create_payment_group.start,id:"
 msgid "ID"
 msgstr "Identificador"
@@ -108,6 +117,10 @@ msgctxt "field:account.move.line.create_payment_group.start,payment_type:"
 msgid "Payment Type"
 msgstr "Tipo de pago"
 
+msgctxt "field:account.move.line.create_payment_group.start,payments_amount:"
+msgid "Payments Amount"
+msgstr "Total pagos"
+
 msgctxt "field:account.move.line.create_payment_group.start,planned_date:"
 msgid "Planned Date"
 msgstr "Fecha de planificación"
@@ -121,7 +134,7 @@ msgid "Planned Date"
 msgstr "Fecha de planificación"
 
 msgctxt "field:account.payment.group,process_method:"
-msgid ""
+msgid "Process Method"
 msgstr "Método de proceso"
 
 msgctxt "field:account.payment.journal,active:"
@@ -144,12 +157,16 @@ msgctxt "field:account.payment.process.start,join:"
 msgid "Join lines"
 msgstr "Unir líneas"
 
+msgctxt "field:account.payment.process.start,payments_amount:"
+msgid "Payments Amount"
+msgstr "Total pagos"
+
 msgctxt "field:account.payment.process.start,planned_date:"
 msgid "Planned Date"
 msgstr "Fecha de planificación"
 
 msgctxt "field:account.payment.process.start,process_method:"
-msgid ""
+msgid "Process Method"
 msgstr "Método de proceso"
 
 msgctxt "help:account.move.line.create_payment_group.start,join:"
