@@ -1,4 +1,4 @@
-#
+# 
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
@@ -103,7 +103,7 @@ msgstr ""
 
 msgctxt "field:account.move.line.create_payment_group.start,id:"
 msgid "ID"
-msgstr "Identificador"
+msgstr "ID"
 
 msgctxt "field:account.move.line.create_payment_group.start,join:"
 msgid "Join lines"
