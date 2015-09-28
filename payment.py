@@ -112,9 +112,6 @@ class Journal:
         cls.party.states.update({
                 'required': Eval('process_method') != 'manual',
                 })
-        cls.bank_account.states.update({
-                'required': Eval('process_method') != 'manual',
-                })
 
     @staticmethod
     def default_active():
