@@ -135,16 +135,6 @@ class Group:
     def __setup__(cls):
         super(Group, cls).__setup__()
         cls._error_messages.update({
-                'company_without_complete_address': ('The company %s has no a '
-                    'complete address to add to the file.'),
-                'party_without_address': ('The party %s has no any address to '
-                    'add to the file'),
-                'party_without_complete_address': ('The party %s has no a '
-                    'complete address to build the file.'),
-                'party_without_province': ('The party %s has no any province '
-                    'assigned at its address'),
-                'party_without_vat_number': ('The party %s has no any vat '
-                    'number.'),
                 'no_lines': ('Can not generate export file, there are not '
                     'payment lines.'),
                 'bank_account_not_defined': ('The bank account of the company '
@@ -158,10 +148,6 @@ class Group:
                     ' journal enforces all lines to have a bank account.'),
                 'wrong_party_bank_account': ('The bank account number of the '
                     'party %s is not correct.'),
-                'wrong_payment_journal': ('The payment journal has no norm to '
-                    'build a file.'),
-                'unknown_error': ('Unknown error. An error occurred creating '
-                    'the file.'),
                 'remittance': 'remittance',
                 'configuration_error': ('Configuration Error!'),
                 'payment_without_bank_account': (
