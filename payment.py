@@ -562,10 +562,12 @@ class CreatePaymentGroup(Wizard):
         pool = Pool()
         PayLine = pool.get('account.move.line.pay', type='wizard')
         ProcessPayment = pool.get('account.payment.process', type='wizard')
+        Date = pool.get('ir.date')
 
         session_id, _, _ = PayLine.create()
         payline = PayLine(session_id)
         payline.start.journal = self.start.journal
+        payline.start.date = self.start.planned_date or Date.today()
         payline.start.approve = True
         action, data = payline.do_pay(action)
         PayLine.delete(session_id)
