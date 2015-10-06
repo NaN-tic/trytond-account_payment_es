@@ -1,4 +1,4 @@
-#
+# 
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
@@ -49,6 +49,10 @@ msgid "The bank account of the company %s is not defined."
 msgstr "No s'ha definit el número de compte bancari de l'empresa %s."
 
 msgctxt "error:account.payment.group:"
+msgid "The company %s has no a complete address to add to the file."
+msgstr "L'empresa %s no té una adreça complerta per afegir al fitxer."
+
+msgctxt "error:account.payment.group:"
 msgid "The company have not any VAT number defined."
 msgstr "L'empresa not té cap CIF/NIF definit."
 
@@ -57,8 +61,32 @@ msgid "The party \"%s\" doesn't have bank account."
 msgstr "El tercer \"%s\" no té compte bancari."
 
 msgctxt "error:account.payment.group:"
+msgid "The party %s has no a complete address to build the file."
+msgstr "El tercer %s no disposa d'una adreça completa per generar el fitxer"
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any address to add to the file"
+msgstr "El tercer %s no disposa d'una adreça per afegir-la al fitxer."
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any province assigned at its address"
+msgstr "El tercer %s no té una província assignada a la seva adreça."
+
+msgctxt "error:account.payment.group:"
+msgid "The party %s has no any vat number."
+msgstr "El tercer %s no té cap CIF/NIF."
+
+msgctxt "error:account.payment.group:"
 msgid "The payment \"%s\" doesn't have bank account."
 msgstr "El pagament \"%s\" no té compte bancari."
+
+msgctxt "error:account.payment.group:"
+msgid "The payment journal has no norm to build a file."
+msgstr "El diari de pagament no té una norma per construir el fitxer."
+
+msgctxt "error:account.payment.group:"
+msgid "Unknown error. An error occurred creating the file."
+msgstr "Error desconegut. S'ha produït un error creant el fitxer."
 
 msgctxt "error:account.payment.group:"
 msgid "remittance"
