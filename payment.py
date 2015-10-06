@@ -143,7 +143,7 @@ class Group:
                     'complete address to build the file.'),
                 'party_without_province': ('The party %s has no any province '
                     'assigned at its address'),
-                'party_without_vat_number': ('The party %s has no any vat '
+                'party_without_vat_code': ('The party %s has no any vat '
                     'number.'),
                 'no_lines': ('Can not generate export file, there are not '
                     'payment lines.'),
@@ -151,7 +151,7 @@ class Group:
                     '%s is not defined.'),
                 'wrong_bank_account': ('The bank account number of the '
                     'company %s is not correct.'),
-                'vat_number_not_defined': ('The company have not any VAT '
+                'vat_code_not_defined': ('The company have not any VAT '
                     'number defined.'),
                 'customer_bank_account_not_defined': ('The bank account '
                     'number of the party %s is not defined and current payment'
@@ -197,11 +197,10 @@ class Group:
                         error_description_args=(values['name'],))
 
         # Checks vat number
-        vat = journal.party and journal.party.vat_number \
-            or False
+        vat = journal.party and journal.party.vat_code or None
         if not vat:
             self.raise_user_error('configuration_error',
-                        error_description='vat_number_not_defined',
+                        error_description='vat_code_not_defined',
                         error_description_args=(values['name']))
 
         # Checks whether exists lines
@@ -213,7 +212,7 @@ class Group:
         values['payment_date'] = self.planned_date if self.planned_date \
             else today
         values['creation_date'] = today
-        values['vat_number'] = vat
+        values['vat_code'] = vat
         values['suffix'] = journal.suffix
         values['company_name'] = journal.company.party.name
         values['bank_account'] = journal.bank_account.get_first_other_number()
@@ -280,7 +279,7 @@ class Group:
                     'maturity_date': maturity_date,
                     'create_date': create_date,
                     'date_created': date_created,
-                    'vat_number': party_bank_account[0].vat_number,
+                    'vat_code': party_bank_account[0].vat_code,
                     }
                 address = Party.address_get(party_bank_account[0],
                     type='invoice')
@@ -325,7 +324,7 @@ class Group:
                         and payment.line.maturity_date or today),
                     'create_date': payment.create_date,
                     'date_created': payment.date,
-                    'vat_number': party.vat_number,
+                    'vat_code': party.vat_code,
                     }
                 address = Party.address_get(party, type='invoice')
                 if address:
