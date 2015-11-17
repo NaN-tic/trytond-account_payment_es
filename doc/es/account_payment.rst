@@ -1,4 +1,4 @@
-#:after:account_payment/account_payment:section:creacion_de_pagos#
+#:after:account_payment/account_payment:section:informar-pagos#
 
 Para generar el fichero de orden de pago haga clic sobre el botón "Confirmar".
 
