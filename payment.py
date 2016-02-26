@@ -515,9 +515,11 @@ class CreatePaymentGroupStart(ModelView):
     def __setup__(cls):
         super(CreatePaymentGroupStart, cls).__setup__()
         cls._error_messages.update({
+                'non_posted_move': ('You can not pay line "%(line)s" because '
+                    'its move "%(move)s" is not posted.'),
                 'different_payment_types': ('Payment types can not be mixed on'
                     ' payment groups. Payment Type "%s" of line "%s" is '
-                    'diferent from previous payment types "%s"')
+                    'diferent from previous payment types "%s"'),
                 })
 
     @classmethod
@@ -532,6 +534,11 @@ class CreatePaymentGroupStart(ModelView):
         payment_type = None
         payments_amount = Decimal('0.0')
         for line in Line.browse(Transaction().context.get('active_ids')):
+            if line.move.state != 'posted':
+                cls.raise_user_error('non_posted_move', {
+                        'line': line.rec_name,
+                        'move': line.move.rec_name,
+                        })
             if not payment_type:
                 payment_type = line.payment_type
             elif payment_type != line.payment_type:
