@@ -21,7 +21,6 @@ __all__ = [
     'CreatePaymentGroupStart',
     'CreatePaymentGroup',
     ]
-__metaclass__ = PoolMeta
 
 province = {
     'none': '',
@@ -81,6 +80,7 @@ province = {
 
 
 class BankAccount:
+    __metaclass__ = PoolMeta
     __name__ = 'bank.account'
 
     def get_first_other_number(self):
@@ -96,6 +96,7 @@ class BankAccount:
 
 
 class Journal:
+    __metaclass__ = PoolMeta
     __name__ = 'account.payment.journal'
     active = fields.Boolean('Active', select=True)
     require_bank_account = fields.Boolean('Require bank account',
@@ -123,6 +124,7 @@ class Journal:
 
 
 class Group:
+    __metaclass__ = PoolMeta
     __name__ = 'account.payment.group'
     join = fields.Boolean('Join lines', readonly=True,
             depends=['process_method'])
@@ -374,6 +376,7 @@ class Group:
 
 
 class PayLine:
+    __metaclass__ = PoolMeta
     __name__ = 'account.move.line.pay'
 
     def get_payment(self, line):
@@ -390,6 +393,7 @@ class PayLine:
 
 
 class PayLineStart:
+    __metaclass__ = PoolMeta
     __name__ = 'account.move.line.pay.start'
 
     @classmethod
@@ -426,6 +430,7 @@ class PayLineStart:
 
 
 class ProcessPaymentStart:
+    __metaclass__ = PoolMeta
     __name__ = 'account.payment.process.start'
     join = fields.Boolean('Join lines', depends=['process_method'],
         help='Join payment lines of the same bank account.')
@@ -469,6 +474,7 @@ class ProcessPaymentStart:
 
 
 class ProcessPayment:
+    __metaclass__ = PoolMeta
     __name__ = 'account.payment.process'
 
     def _group_payment_key(self, payment):
