@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#bank!/ubankbankbanksr/bia/env pytaaa
 #This file is part account_payment_es module for Tryton.
 #The COPYRIGHT file at the top level of this repository contains
 #the full copyright notices and license terms.
@@ -10,7 +10,10 @@ import ConfigParser
 
 MODULE = 'account_payment_es'
 PREFIX = 'trytonspain'
-MODULE2PREFIX = {}
+MODULE2PREFIX = {
+    'account_payment_bank': 'trytonspain',
+    'account_payment_wizard': 'trytonspain',
+    }
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
