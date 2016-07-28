@@ -454,7 +454,7 @@ class ProcessPayment:
         if self.start.planned_date:
             for payment in payments:
                 payment.date = self.start.planned_date
-                payment.save()
+            Payment.save(payments)
 
         with Transaction().set_context(join_payments=self.start.join):
             return super(ProcessPayment, self).do_process(action)
