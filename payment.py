@@ -15,7 +15,6 @@ __all__ = [
     'Journal',
     'Group',
     'PayLine',
-    'PayLineStart',
     'ProcessPaymentStart',
     'ProcessPayment',
     'CreatePaymentGroupStart',
@@ -387,46 +386,9 @@ class PayLine:
             origin = line.origin.rec_name
             if not payment.description:
                 payment.description = origin
-            elif not origin in payment.description:
+            elif origin not in payment.description:
                 payment.description = origin + ' ' + payment.description
         return payment
-
-
-class PayLineStart:
-    __metaclass__ = PoolMeta
-    __name__ = 'account.move.line.pay.start'
-
-    @classmethod
-    def __setup__(cls):
-        super(PayLineStart, cls).__setup__()
-        cls._error_messages.update({
-                'different_payment_types': ('Payment types can not be mixed. '
-                    'Payment Type "%s" of line "%s" is '
-                    'diferent from previous payment types "%s"')
-                })
-
-    @classmethod
-    def default_get(cls, fields, with_rec_name=True):
-        pool = Pool()
-        Line = pool.get('account.move.line')
-        Journal = pool.get('account.payment.journal')
-
-        res = super(PayLineStart, cls).default_get(fields, with_rec_name)
-
-        payment_type = None
-        for line in Line.browse(Transaction().context.get('active_ids')):
-            if not payment_type:
-                payment_type = line.payment_type
-            elif payment_type != line.payment_type:
-                cls.raise_user_error('different_payment_types', (
-                        line.payment_type and line.payment_type.rec_name or '',
-                        line.rec_name, payment_type.rec_name))
-        journals = Journal.search([
-                ('payment_type', '=', payment_type)
-                ])
-        if journals and len(journals) == 1:
-            res['journal'] = journals[0].id
-        return res
 
 
 class ProcessPaymentStart:
@@ -505,10 +467,7 @@ class CreatePaymentGroupStart(ModelView):
         required=True,
         domain=[
             ('company', '=', Eval('context', {}).get('company', -1)),
-            ('payment_type', '=', Eval('payment_type', -1)),
-            ],
-        depends=['payment_type'])
-    payment_type = fields.Many2One('account.payment.type', 'Payment Type')
+            ])
     join = fields.Boolean('Join lines',
         help='Join payment lines of the same bank account.')
     planned_date = fields.Date('Planned Date',
@@ -522,21 +481,15 @@ class CreatePaymentGroupStart(ModelView):
         cls._error_messages.update({
                 'non_posted_move': ('You can not pay line "%(line)s" because '
                     'its move "%(move)s" is not posted.'),
-                'different_payment_types': ('Payment types can not be mixed on'
-                    ' payment groups. Payment Type "%s" of line "%s" is '
-                    'diferent from previous payment types "%s"'),
                 })
 
     @classmethod
     def default_get(cls, fields, with_rec_name=True):
         pool = Pool()
         Line = pool.get('account.move.line')
-        Journal = pool.get('account.payment.journal')
-
         res = super(CreatePaymentGroupStart, cls).default_get(fields,
             with_rec_name)
 
-        payment_type = None
         payments_amount = Decimal('0.0')
         for line in Line.browse(Transaction().context.get('active_ids')):
             if line.move.state != 'posted':
@@ -544,20 +497,8 @@ class CreatePaymentGroupStart(ModelView):
                         'line': line.rec_name,
                         'move': line.move.rec_name,
                         })
-            if not payment_type:
-                payment_type = line.payment_type
-            elif payment_type != line.payment_type:
-                cls.raise_user_error('different_payment_types', (
-                        line.payment_type and line.payment_type.rec_name or '',
-                        line.rec_name, payment_type.rec_name))
             payments_amount += line.payment_amount
-        res['payment_type'] = payment_type and payment_type.id
         res['payments_amount'] = payments_amount
-        journals = Journal.search([
-                ('payment_type', '=', payment_type)
-                ])
-        if journals and len(journals) == 1:
-            res['journal'] = journals[0].id
         return res
 
 

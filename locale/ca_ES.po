@@ -1,29 +1,12 @@
-# 
+#
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
-
-msgctxt "error:account.move.line.create_payment_group.start:"
-msgid ""
-"Payment types can not be mixed on payment groups. Payment Type \"%s\" of "
-"line \"%s\" is diferent from previous payment types \"%s\""
-msgstr ""
-"No es poden barrejar tipus de pagament en un sol grup de pagaments. El tipus"
-" de pagament \"%s\" de la línia \"%s\" és diferent del tipus de pagament "
-"utlitzat anteriorment \"%s\"."
 
 msgctxt "error:account.move.line.create_payment_group.start:"
 msgid "You can not pay line \"%(line)s\" because its move \"%(move)s\" is not posted."
 msgstr ""
 "No podeu pagar la línia \"%(line)s\" perquè el seu assentament \"%(move)s\" "
 "no està confirmat."
-
-msgctxt "error:account.move.line.pay.start:"
-msgid ""
-"Payment types can not be mixed. Payment Type \"%s\" of line \"%s\" is "
-"diferent from previous payment types \"%s\""
-msgstr ""
-"No es poden barrejar tipus de pagament. El tipus de pagament \"%s\" de la "
-"línia \"%s\" és diferent del tipus de pagament utlitzat anteriorment \"%s\"."
 
 msgctxt "error:account.payment.group:"
 msgid "Can not generate export file, there are not payment lines."
@@ -118,10 +101,6 @@ msgstr "Ajunta línies"
 msgctxt "field:account.move.line.create_payment_group.start,journal:"
 msgid "Journal"
 msgstr "Diari"
-
-msgctxt "field:account.move.line.create_payment_group.start,payment_type:"
-msgid "Payment Type"
-msgstr "Tipus de pagament"
 
 msgctxt "field:account.move.line.create_payment_group.start,payments_amount:"
 msgid "Payments Amount"
