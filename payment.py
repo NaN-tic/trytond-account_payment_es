@@ -378,8 +378,8 @@ class PayLine:
     __metaclass__ = PoolMeta
     __name__ = 'account.move.line.pay'
 
-    def get_payment(self, line):
-        payment = super(PayLine, self).get_payment(line)
+    def get_payment(self, line, jorunals):
+        payment = super(PayLine, self).get_payment(line, journals)
         payment.description = line.description
         payment.date = line.maturity_date
         if line.origin:
