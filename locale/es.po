@@ -92,7 +92,7 @@ msgstr ""
 
 msgctxt "field:account.move.line.create_payment_group.start,id:"
 msgid "ID"
-msgstr "ID"
+msgstr "Identificador"
 
 msgctxt "field:account.move.line.create_payment_group.start,join:"
 msgid "Join lines"
