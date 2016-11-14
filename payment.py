@@ -2,13 +2,15 @@
 # This file is part of account_payment_es module for Tryton.
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
+from decimal import Decimal
+
+from stdnum.es.ccc import is_valid
+
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.transaction import Transaction
-import banknumber
-from decimal import Decimal
 
 __all__ = [
     'BankAccount',
@@ -192,7 +194,7 @@ class Group:
                 error_description='bank_account_not_defined',
                 error_description_args=(values['name']))
         code = bank_account.get_first_other_number()
-        if not code or not banknumber.check_code('ES', code):
+        if not code or not is_valid(code):
             self.raise_user_error('configuration_error',
                         error_description='wrong_bank_account',
                         error_description_args=(values['name'],))
@@ -353,7 +355,7 @@ class Group:
                     self.raise_user_error('configuration_error',
                         error_description='customer_bank_account_not_defined',
                         error_description_args=(receipt['name'],))
-                if not banknumber.check_code('ES', receipt['bank_account']):
+                if not is_valid(receipt['bank_account']):
                     self.raise_user_error('configuration_error',
                         error_description='wrong_party_bank_account',
                         error_description_args=(receipt['name'],))
