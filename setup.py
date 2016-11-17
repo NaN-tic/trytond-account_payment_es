@@ -13,7 +13,7 @@ except ImportError:
     from ConfigParser import ConfigParser
 
 MODULE2PREFIX = {
-    'account_payment_bank': 'trytonspain',
+    'account_bank': 'trytonspain',
     'account_payment_wizard': 'trytonspain',
     }
 
