@@ -383,7 +383,8 @@ class PayLine:
     def get_payment(self, line, journals):
         payment = super(PayLine, self).get_payment(line, journals)
         payment.description = line.description
-        payment.date = line.maturity_date
+        if line.maturity_date:
+            payment.date = line.maturity_date
         if line.origin:
             origin = line.origin.rec_name
             if not payment.description:
@@ -493,7 +494,7 @@ class CreatePaymentGroupStart(ModelView):
             with_rec_name)
 
         payments_amount = Decimal('0.0')
-        for line in Line.browse(Transaction().context.get('active_ids')):
+        for line in Line.browse(Transaction().context.get('active_ids', [])):
             if line.move.state != 'posted':
                 cls.raise_user_error('non_posted_move', {
                         'line': line.rec_name,
@@ -519,11 +520,9 @@ class CreatePaymentGroup(Wizard):
         Payment = pool.get('account.payment')
         PayLine = pool.get('account.move.line.pay', type='wizard')
         ProcessPayment = pool.get('account.payment.process', type='wizard')
-        Date = pool.get('ir.date')
 
         session_id, _, _ = PayLine.create()
         payline = PayLine(session_id)
-        payline.start.date = self.start.planned_date or Date.today()
         payline.ask_journal.journal = self.start.journal
         payline.ask_journal.journals = [self.start.journal]
         action, data = payline.do_pay(action)
