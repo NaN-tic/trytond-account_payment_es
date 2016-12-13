@@ -112,7 +112,7 @@ class Journal:
     def __setup__(cls):
         super(Journal, cls).__setup__()
         cls.party.states.update({
-                'required': Eval('process_method') != 'manual',
+                'required': ~Eval('process_method').in_(['manual', 'sepa']),
                 })
 
     @staticmethod
