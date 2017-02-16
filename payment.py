@@ -128,11 +128,11 @@ class Group:
     __metaclass__ = PoolMeta
     __name__ = 'account.payment.group'
     join = fields.Boolean('Join lines', readonly=True,
-            depends=['process_method'])
+        depends=['process_method'])
     planned_date = fields.Date('Planned Date', readonly=True,
-            depends=['process_method'])
+        depends=['process_method'])
     process_method = fields.Function(fields.Char('Process Method'),
-            'get_process_method')
+        'get_process_method')
 
     @classmethod
     def __setup__(cls):
@@ -180,6 +180,7 @@ class Group:
         pool = Pool()
         Party = pool.get('party.party')
         Date = pool.get('ir.date')
+
         today = Date.today()
         values = {}
         journal = self.journal
@@ -200,8 +201,8 @@ class Group:
                         error_description_args=(values['name'],))
 
         # Checks vat number
-        vat = journal.party and journal.party.vat_code or None
-        if not vat:
+        tax_identifier = journal.party and journal.party.tax_identifier or None
+        if not tax_identifier:
             self.raise_user_error('configuration_error',
                         error_description='vat_code_not_defined',
                         error_description_args=(values['name']))
@@ -215,7 +216,7 @@ class Group:
         values['payment_date'] = self.planned_date if self.planned_date \
             else today
         values['creation_date'] = today
-        values['vat_code'] = vat
+        values['vat_code'] = tax_identifier.code
         values['suffix'] = journal.suffix
         values['company_name'] = journal.company.party.name
         values['bank_account'] = journal.bank_account.get_first_other_number()
@@ -282,7 +283,8 @@ class Group:
                     'maturity_date': maturity_date,
                     'create_date': create_date,
                     'date_created': date_created,
-                    'vat_code': party_bank_account[0].vat_code,
+                    'vat_code': party_bank_account[0].tax_identifier.code \
+                        if party_bank_account[0].tax_identifier else None,
                     }
                 address = Party.address_get(party_bank_account[0],
                     type='invoice')
@@ -327,7 +329,8 @@ class Group:
                         and payment.line.maturity_date or today),
                     'create_date': payment.create_date,
                     'date_created': payment.date,
-                    'vat_code': party.vat_code,
+                    'vat_code': party.tax_identifier.code \
+                        if party.tax_identifier else None,
                     }
                 address = Party.address_get(party, type='invoice')
                 if address:
