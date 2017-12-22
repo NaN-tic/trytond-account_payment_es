@@ -12,10 +12,9 @@ try:
 except ImportError:
     from ConfigParser import ConfigParser
 
-MODULE2PREFIX = {
-    'account_bank': 'trytonspain',
-    'account_payment_wizard': 'trytonspain',
-    }
+MODULE = 'account_payment_es'
+PREFIX = 'trytonspain'
+MODULE2PREFIX = {}
 
 
 def read(fname):
@@ -43,10 +42,8 @@ version = info.get('version', '0.0.1')
 major_version, minor_version, _ = version.split('.', 2)
 major_version = int(major_version)
 minor_version = int(minor_version)
-name = 'trytonspain_account_payment_es'
-download_url = 'https://bitbucket.org/trytonspain/trytond-account_payment_es'
 
-requires = ['python-stdnum >= 1.5']
+requires = []
 for dep in info.get('depends', []):
     if not re.match(r'(ir|res)(\W|$)', dep):
         prefix = MODULE2PREFIX.get(dep, 'trytond')
@@ -59,22 +56,22 @@ if minor_version % 2:
     # Add development index for testing with proteus
     dependency_links.append('https://trydevpi.tryton.org/')
 
-setup(name=name,
+setup(name='%s_%s' % (PREFIX, MODULE),
     version=version,
-    description='Tryton Account Payment Es Module',
+    description='Tryton account_payment_es Module',
     long_description=read('README'),
     author='TrytonSpain',
     author_email='info@trytonspain.com',
     url='https://bitbucket.org/trytonspain/',
-    download_url=download_url,
+    download_url="https://bitbucket.org/trytonspain/trytond-%s" % MODULE,
     keywords='',
-    package_dir={'trytond.modules.account_payment_es': '.'},
+    package_dir={'trytond.modules.%s' % MODULE: '.'},
     packages=[
-        'trytond.modules.account_payment_es',
-        'trytond.modules.account_payment_es.tests',
+        'trytond.modules.%s' % MODULE,
+        'trytond.modules.%s.tests' % MODULE,
         ],
     package_data={
-        'trytond.modules.account_payment_es': (info.get('xml', [])
+        'trytond.modules.%s' % MODULE: (info.get('xml', [])
             + ['tryton.cfg', 'view/*.xml', 'locale/*.po', '*.odt',
                 'icons/*.svg', 'tests/*.rst']),
         },
@@ -86,14 +83,24 @@ setup(name=name,
         'Intended Audience :: Financial and Insurance Industry',
         'Intended Audience :: Legal Industry',
         'License :: OSI Approved :: GNU General Public License (GPL)',
+        'Natural Language :: Bulgarian',
         'Natural Language :: Catalan',
+        'Natural Language :: Czech',
+        'Natural Language :: Dutch',
         'Natural Language :: English',
+        'Natural Language :: French',
+        'Natural Language :: German',
+        'Natural Language :: Hungarian',
+        'Natural Language :: Italian',
+        'Natural Language :: Portuguese (Brazilian)',
+        'Natural Language :: Russian',
+        'Natural Language :: Slovenian',
         'Natural Language :: Spanish',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: Implementation :: CPython',
         'Programming Language :: Python :: Implementation :: PyPy',
         'Topic :: Office/Business',
@@ -104,11 +111,13 @@ setup(name=name,
     zip_safe=False,
     entry_points="""
     [trytond.modules]
-    account_payment_es = trytond.modules.account_payment_es
-    """,
+    %s = trytond.modules.%s
+    """ % (MODULE, MODULE),
     test_suite='tests',
     test_loader='trytond.test_loader:Loader',
     tests_require=tests_require,
     use_2to3=True,
-    convert_2to3_doctests=['tests/scenario_account_payment_es.rst'],
+    convert_2to3_doctests=[
+        'tests/scenario_account_payment_es.rst',
+        ],
     )
