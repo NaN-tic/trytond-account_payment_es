@@ -1,4 +1,4 @@
-## coding: utf-8
+# coding: utf-8
 # This file is part of account_payment_es module for Tryton.
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
@@ -283,8 +283,8 @@ class Group:
                     'maturity_date': maturity_date,
                     'create_date': create_date,
                     'date_created': date_created,
-                    'vat_code': party_bank_account[0].tax_identifier.code \
-                        if party_bank_account[0].tax_identifier else None,
+                    'vat_code': (party_bank_account[0].tax_identifier.code
+                        if party_bank_account[0].tax_identifier else None),
                     }
                 address = Party.address_get(party_bank_account[0],
                     type='invoice')
@@ -329,8 +329,8 @@ class Group:
                         and payment.line.maturity_date or today),
                     'create_date': payment.create_date,
                     'date_created': payment.date,
-                    'vat_code': party.tax_identifier.code \
-                        if party.tax_identifier else None,
+                    'vat_code': (party.tax_identifier.code
+                        if party.tax_identifier else None),
                     }
                 address = Party.address_get(party, type='invoice')
                 if address:
