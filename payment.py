@@ -173,6 +173,11 @@ class Group:
                     'The party "%s" doesn\'t have bank account.'),
                 })
 
+    @classmethod
+    def __setup__(cls):
+        super(Group, cls).__setup__()
+        cls._order.insert(0, ('number', 'DESC'))
+
     def get_process_method(self, name):
         return self.journal.process_method
 
