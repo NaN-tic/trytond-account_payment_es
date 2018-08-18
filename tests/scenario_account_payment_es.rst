@@ -85,4 +85,4 @@ Create a payment group for the line::
     >>> payment.amount
     Decimal('50.00')
     >>> payment.state
-    u'processing'
+    'processing'
