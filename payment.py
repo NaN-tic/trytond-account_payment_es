@@ -11,6 +11,8 @@ from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.transaction import Transaction
+from trytond.i18n import gettext
+from trytond.exceptions import UserError
 
 __all__ = [
     'BankAccount',
@@ -134,45 +136,6 @@ class Group(metaclass=PoolMeta):
     @classmethod
     def __setup__(cls):
         super(Group, cls).__setup__()
-        cls._error_messages.update({
-                'company_without_complete_address': ('The company %s has no a '
-                    'complete address to add to the file.'),
-                'party_without_address': ('The party %s has no any address to '
-                    'add to the file'),
-                'party_without_complete_address': ('The party %s has no a '
-                    'complete address to build the file.'),
-                'party_without_province': ('The party %s has no any province '
-                    'assigned at its address'),
-                'party_without_vat_code': ('The party %s has no any vat '
-                    'number.'),
-                'no_lines': ('Can not generate export file, there are not '
-                    'payment lines.'),
-                'bank_account_not_defined': ('The bank account of the company '
-                    '%s is not defined.'),
-                'wrong_bank_account': ('The bank account number of the '
-                    'company %s is not correct.'),
-                'vat_code_not_defined': ('The company have not any VAT '
-                    'number defined.'),
-                'customer_bank_account_not_defined': ('The bank account '
-                    'number of the party %s is not defined and current payment'
-                    ' journal enforces all lines to have a bank account.'),
-                'wrong_party_bank_account': ('The bank account number of the '
-                    'party %s is not correct.'),
-                'wrong_payment_journal': ('The payment journal has no norm to '
-                    'build a file.'),
-                'unknown_error': ('Unknown error. An error occurred creating '
-                    'the file.'),
-                'remittance': 'remittance',
-                'configuration_error': ('Configuration Error!'),
-                'payment_without_bank_account': (
-                    'The payment "%s" doesn\'t have bank account.'),
-                'party_without_bank_account': (
-                    'The party "%s" doesn\'t have bank account.'),
-                })
-
-    @classmethod
-    def __setup__(cls):
-        super(Group, cls).__setup__()
         cls._order.insert(0, ('number', 'DESC'))
 
     def get_process_method(self, name):
@@ -193,26 +156,29 @@ class Group(metaclass=PoolMeta):
         # Checks bank account code.
         bank_account = journal.bank_account
         if not bank_account:
-            self.raise_user_error('configuration_error',
-                error_description='bank_account_not_defined',
-                error_description_args=(values['name']))
+            raise UserError(gettext(
+                'account_payment_es.bank_account_not_defined',
+                company=values['name']
+            ))
+
         code = bank_account.get_first_other_number()
         if not code or not is_valid(code):
-            self.raise_user_error('configuration_error',
-                        error_description='wrong_bank_account',
-                        error_description_args=(values['name'],))
+            raise UserError(gettext(
+                'account_payment_es.wrong_bank_account',
+                company=values['name']
+            ))
 
         # Checks vat number
         tax_identifier = journal.party and journal.party.tax_identifier or None
         if not tax_identifier:
-            self.raise_user_error('configuration_error',
-                        error_description='vat_code_not_defined',
-                        error_description_args=(values['name']))
+            raise UserError(gettext(
+                'account_payment_es.vat_code_not_defined',
+                company=values['name']))
 
         # Checks whether exists lines
         payments = self.payments
         if not payments:
-            self.raise_user_error('no_lines')
+            raise UserError(gettext('account_payment_es.no_lines'))
 
         values['number'] = str(self.id)
         values['payment_date'] = self.planned_date if self.planned_date \
@@ -248,9 +214,10 @@ class Group(metaclass=PoolMeta):
                     parties_bank_accounts[key].append(payment)
             for party_bank_account in parties_bank_accounts:
                 if not party_bank_account or not party_bank_account[1]:
-                    self.raise_user_error('party_without_bank_account',
-                        party_bank_account and party_bank_account[0]
-                            and party_bank_account[0].rec_name)
+                    raise UserError(gettext(
+                        'account_payment_es.party_without_bank_account',
+                        party=party_bank_account and party_bank_account[0]
+                            and party_bank_account[0].rec_name))
                 amount = 0
                 communication = ''
                 date = False
@@ -314,8 +281,10 @@ class Group(metaclass=PoolMeta):
             # Each payment is a receipt
             for payment in payments:
                 if not payment.bank_account:
-                    self.raise_user_error('payment_without_bank_account',
-                        payment.rec_name)
+                    raise UserError(gettext(
+                        'account_payment_es.payment_without_bank_account',
+                        payment=payment.rec_name))
+
                 party = payment.party
                 amount = payment.amount
                 vals = {
@@ -357,13 +326,13 @@ class Group(metaclass=PoolMeta):
         if journal.require_bank_account:
             for receipt in receipts:
                 if not receipt['bank_account']:
-                    self.raise_user_error('configuration_error',
-                        error_description='customer_bank_account_not_defined',
-                        error_description_args=(receipt['name'],))
+                    raise UserError(gettext(
+                        'account_payment_es.customer_bank_account_not_defined',
+                        party=receipt['name']))
                 if not is_valid(receipt['bank_account']):
-                    self.raise_user_error('configuration_error',
-                        error_description='wrong_party_bank_account',
-                        error_description_args=(receipt['name'],))
+                    raise UserError(gettext(
+                        'account_payment_es.wrong_party_bank_account',
+                        party=receipt['name']))
         values['receipts'] = receipts
         return values
 
@@ -371,8 +340,7 @@ class Group(metaclass=PoolMeta):
         IrAttachment = Pool().get('ir.attachment')
         journal = self.journal
         values = {
-            'name': '%s_%s_%s' % (
-                self.raise_user_error('remittance', raise_exception=False),
+            'name': '%s_%s_%s' % (gettext('account_payment_es.remittance'),
                 journal.process_method, self.reference),
             'type': 'data',
             'data': data,
@@ -409,15 +377,6 @@ class ProcessPaymentStart(metaclass=PoolMeta):
         readonly=True)
 
     @classmethod
-    def __setup__(cls):
-        super(ProcessPaymentStart, cls).__setup__()
-        cls._error_messages.update({
-                'different_process_method': ('Payment process method can not '
-                    'be mixed on payment groups. Payment process "%s" of line '
-                    '"%s" is diferent from previous payment process "%s"')
-                })
-
-    @classmethod
     def default_get(cls, fields, with_rec_name=True):
         pool = Pool()
         Payment = pool.get('account.payment')
@@ -432,9 +391,13 @@ class ProcessPaymentStart(metaclass=PoolMeta):
                 process_method = payment.journal.process_method
             else:
                 if process_method != payment.journal.process_method:
-                    cls.raise_user_error('different_process_method', (
-                            payment.journal and payment.journal.process_method
-                            or '', payment.rec_name, process_method))
+                    raise UserError(gettext(
+                        'account_payment_es.different_process_method',
+                            process=(payment.journal and
+                                payment.journal.process_method
+                                or ''),
+                            payment=payment.rec_name,
+                            pprocess=ppprocess_method))
             payments_amount += payment.amount
         res['process_method'] = process_method
         res['payments_amount'] = payments_amount
@@ -480,13 +443,6 @@ class CreatePaymentGroupStart(ModelView):
     payments_amount = fields.Numeric('Payments Amount', digits=(16, 2),
         readonly=True)
 
-    @classmethod
-    def __setup__(cls):
-        super(CreatePaymentGroupStart, cls).__setup__()
-        cls._error_messages.update({
-                'non_posted_move': ('You can not pay line "%(line)s" because '
-                    'its move "%(move)s" is not posted.'),
-                })
 
     @classmethod
     def default_get(cls, fields, with_rec_name=True):
@@ -498,10 +454,10 @@ class CreatePaymentGroupStart(ModelView):
         payments_amount = Decimal('0.0')
         for line in Line.browse(Transaction().context.get('active_ids', [])):
             if line.move.state != 'posted':
-                cls.raise_user_error('non_posted_move', {
-                        'line': line.rec_name,
-                        'move': line.move.rec_name,
-                        })
+                raise UserError(gettext('account_payment_es.non_posted_move',
+                        line=line.rec_name,
+                        move=line.move.rec_name,
+                        ))
             payments_amount += line.payment_amount
         res['payments_amount'] = payments_amount
         return res
