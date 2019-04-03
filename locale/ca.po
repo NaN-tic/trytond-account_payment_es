@@ -2,94 +2,6 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=utf-8\n"
 
-msgctxt "error:account.move.line.create_payment_group.start:"
-msgid "You can not pay line \"%(line)s\" because its move \"%(move)s\" is not posted."
-msgstr ""
-"No podeu pagar la línia \"%(line)s\" perquè el seu assentament \"%(move)s\" "
-"no està confirmat."
-
-msgctxt "error:account.payment.group:"
-msgid "Can not generate export file, there are not payment lines."
-msgstr ""
-"No es pot generar el fitxer d'exportació, no hi han línies de pagament."
-
-msgctxt "error:account.payment.group:"
-msgid "Configuration Error!"
-msgstr "Error de configuració."
-
-msgctxt "error:account.payment.group:"
-msgid "The bank account number of the company %s is not correct."
-msgstr "El número de compte bancari de l'empresa %s no és correcte."
-
-msgctxt "error:account.payment.group:"
-msgid "The bank account number of the party %s is not correct."
-msgstr "El número de compte bancari del tercer %s no és correcte."
-
-msgctxt "error:account.payment.group:"
-msgid ""
-"The bank account number of the party %s is not defined and current payment "
-"journal enforces all lines to have a bank account."
-msgstr ""
-"El número de compte bancari del tercer %s no està definit i l'actual diari "
-"de pagament força a que totes les línies tingun un."
-
-msgctxt "error:account.payment.group:"
-msgid "The bank account of the company %s is not defined."
-msgstr "No s'ha definit el número de compte bancari de l'empresa %s."
-
-msgctxt "error:account.payment.group:"
-msgid "The company %s has no a complete address to add to the file."
-msgstr "L'empresa %s no té una adreça complerta per afegir al fitxer."
-
-msgctxt "error:account.payment.group:"
-msgid "The company have not any VAT number defined."
-msgstr "L'empresa not té cap CIF/NIF definit."
-
-msgctxt "error:account.payment.group:"
-msgid "The party \"%s\" doesn't have bank account."
-msgstr "El tercer \"%s\" no té compte bancari."
-
-msgctxt "error:account.payment.group:"
-msgid "The party %s has no a complete address to build the file."
-msgstr "El tercer %s no disposa d'una adreça completa per generar el fitxer"
-
-msgctxt "error:account.payment.group:"
-msgid "The party %s has no any address to add to the file"
-msgstr "El tercer %s no disposa d'una adreça per afegir-la al fitxer."
-
-msgctxt "error:account.payment.group:"
-msgid "The party %s has no any province assigned at its address"
-msgstr "El tercer %s no té una província assignada a la seva adreça."
-
-msgctxt "error:account.payment.group:"
-msgid "The party %s has no any vat number."
-msgstr "El tercer %s no té cap CIF/NIF."
-
-msgctxt "error:account.payment.group:"
-msgid "The payment \"%s\" doesn't have bank account."
-msgstr "El pagament \"%s\" no té compte bancari."
-
-msgctxt "error:account.payment.group:"
-msgid "The payment journal has no norm to build a file."
-msgstr "El diari de pagament no té una norma per construir el fitxer."
-
-msgctxt "error:account.payment.group:"
-msgid "Unknown error. An error occurred creating the file."
-msgstr "Error desconegut. S'ha produït un error creant el fitxer."
-
-msgctxt "error:account.payment.group:"
-msgid "remittance"
-msgstr "remesa"
-
-msgctxt "error:account.payment.process.start:"
-msgid ""
-"Payment process method can not be mixed on payment groups. Payment process "
-"\"%s\" of line \"%s\" is diferent from previous payment process \"%s\""
-msgstr ""
-"No es poden barrejar mètodes de procés de pagament en un mateix grup de "
-"pagaments. El procés de pagament \"%s\" de la línia \"%s\" és diferent del "
-"procés de pagament utlitzat anteriorment \"%s\"."
-
 msgctxt "field:account.move.line.create_payment_group.start,id:"
 msgid "ID"
 msgstr "ID"
@@ -185,6 +97,97 @@ msgstr "Inici crea grup de pagaments"
 msgctxt "model:ir.action,name:act_create_payment_group_line"
 msgid "Create Payment Groups"
 msgstr "Crea grup de pagaments"
+
+msgctxt "model:ir.message,text:bank_account_not_defined"
+msgid "The bank account of the company %(company)s is not defined."
+msgstr "El compte bancari de l'empresa %(company)s no està definit."
+
+msgctxt "model:ir.message,text:company_without_complete_address"
+msgid "The company %(company)s has no a complete address to add to the file."
+msgstr ""
+"L’empresa %(company)s no té una adreça completa per afegir-la al fitxer."
+
+msgctxt "model:ir.message,text:configuration_error"
+msgid "Configuration Error!"
+msgstr "Error de configuració!"
+
+msgctxt "model:ir.message,text:customer_bank_account_not_defined"
+msgid ""
+"The bank account number of the party %(party)s is not defined and current payment\n"
+"           journal enforces all lines to have a bank account."
+msgstr ""
+"El número de compte bancari del tercer %(party)s no està definit i el diari de pagament actual\n"
+"            requereix que totes les línies han de tenir un compte bancari."
+
+msgctxt "model:ir.message,text:different_process_method"
+msgid ""
+"Payment process method can not be mixed on payment groups.\n"
+"            Payment process \"%(process)s\" of line \"%(payment)s\" is diferent from previous payment process \"%(pprocess)s\""
+msgstr ""
+"El mètode del procés de pagament no es pot barrejar en grups de pagament.\n"
+"             El procés de pagament \"%(process)s\" de la línia \"%(payment)s\" és diferent del procés de pagament anterior \"%(pprocess)s\""
+
+msgctxt "model:ir.message,text:no_lines"
+msgid "Can not generate export file, there are not payment lines."
+msgstr ""
+"No es pot generar un fitxer d’exportació, no hi ha línies de pagament."
+
+msgctxt "model:ir.message,text:non_posted_move"
+msgid ""
+"You can not pay line \"%(line)s\" because\n"
+"              its move \"%(move)s\" is not posted.'"
+msgstr ""
+"No podeu pagar la línia \"%(line)s\" perquè\n"
+"               el seu assentament \"%(move)s\" no està contabilitzat.'"
+
+msgctxt "model:ir.message,text:party_without_address"
+msgid "The party %(party)s has no any address to add to the file."
+msgstr "El tercer %(party)s no té una adreça per agefir-la al fitxer."
+
+msgctxt "model:ir.message,text:party_without_bank_account"
+msgid "The party \"%(party)s\" doesn\\'t have bank account."
+msgstr "El tercer \"%(party)s\" no té compte bancari."
+
+msgctxt "model:ir.message,text:party_without_complete_address"
+msgid "The party %(party)s has no a complete address to build the file."
+msgstr ""
+"El tercer %(party)s no té una adreça completa per construir el fitxer."
+
+msgctxt "model:ir.message,text:party_without_province"
+msgid "The party %(party)s has no any province assigned at its address"
+msgstr "El tercer %(party)s no té cap província assignada a la seva adreça"
+
+msgctxt "model:ir.message,text:party_without_vat_code"
+msgid "The party %(party)s has no any vat number."
+msgstr "El tercer %(party)s no té cap número vat."
+
+msgctxt "model:ir.message,text:payment_without_bank_account"
+msgid "The payment \"%(payment)s\" doesn\\'t have bank account."
+msgstr "El pagament \"%(payment)s\" no tiene cuenta bancaria."
+
+msgctxt "model:ir.message,text:remittance"
+msgid "remittance"
+msgstr "remesa"
+
+msgctxt "model:ir.message,text:unknown_error"
+msgid "Unknown error. An error occurred creating the file."
+msgstr "Error desconegut. S'ha produït un error en crear el fitxer."
+
+msgctxt "model:ir.message,text:vat_code_not_defined"
+msgid "The company \"%(company)s\" have not any VAT number defined."
+msgstr "L’empresa \"%(company)s\" no té cap número VAT definit."
+
+msgctxt "model:ir.message,text:wrong_bank_account"
+msgid "The bank account number of the company %(company)s is not correct."
+msgstr "El número de compte bancari de l'empresa %(company)s no és correcte."
+
+msgctxt "model:ir.message,text:wrong_party_bank_account"
+msgid "The bank account number of the party %(party)s is not correct."
+msgstr "El número de compte bancari del tercer %(party)s no és correcte."
+
+msgctxt "model:ir.message,text:wrong_payment_journal"
+msgid "The payment journal has no norm to build a file."
+msgstr "El diari de pagament no té cap norma per construir un fitxer."
 
 msgctxt "view:account.move.line.create_payment_group.start:"
 msgid "Create Payment Group"
