@@ -481,6 +481,7 @@ class CreatePaymentGroup(Wizard):
 
         session_id, _, _ = PayLine.create()
         payline = PayLine(session_id)
+        payline.start.date = self.start.planned_date
         payline.ask_journal.journal = self.start.journal
         payline.ask_journal.journals = [self.start.journal]
         action, data = payline.do_pay(action)
