@@ -7,7 +7,6 @@ copyright notices and license terms. -->
         <!-- account.payment.journal -->
         <record model="ir.ui.view" id="payment_journal_view_form">
             <field name="model">account.payment.journal</field>
-            <field name="type" eval="None"/>
             <field name="inherit"
                 ref="account_payment.payment_journal_view_form"/>
             <field name="name">payment_journal_form</field>
@@ -15,7 +14,6 @@ copyright notices and license terms. -->
 
         <record model="ir.ui.view" id="payment_journal_view_list">
             <field name="model">account.payment.journal</field>
-            <field name="type" eval="None"/>
             <field name="inherit"
                 ref="account_payment.payment_journal_view_list"/>
             <field name="name">payment_journal_list</field>
@@ -24,7 +22,6 @@ copyright notices and license terms. -->
         <!-- account.payment.group -->
         <record model="ir.ui.view" id="payment_group_view_form">
             <field name="model">account.payment.group</field>
-            <field name="type" eval="None"/>
             <field name="inherit"
                 ref="account_payment.payment_group_view_form"/>
             <field name="name">payment_group_form</field>
@@ -33,7 +30,6 @@ copyright notices and license terms. -->
         <!-- account.payment.process.start -->
         <record model="ir.ui.view" id="payment_process_start_view_form">
             <field name="model">account.payment.process.start</field>
-            <field name="type" eval="None"/>
             <field name="inherit"
                 ref="account_payment.payment_process_start_view_form"/>
             <field name="name">payment_process_start_form</field>
