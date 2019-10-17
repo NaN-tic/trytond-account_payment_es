@@ -31,8 +31,7 @@ this repository contains the full copyright notices and license terms. -->
         <field name="text">The company "%(company)s" have not any VAT number defined.</field>
     </record>
     <record model="ir.message" id="customer_bank_account_not_defined">
-        <field name="text">The bank account number of the party %(party)s is not defined and current payment
-           journal enforces all lines to have a bank account.</field>
+        <field name="text">The bank account number of the party %(party)s is not defined and current payment journal enforces all lines to have a bank account.</field>
     </record>
     <record model="ir.message" id="wrong_party_bank_account">
         <field name="text">The bank account number of the party %(party)s is not correct.</field>
@@ -56,12 +55,10 @@ this repository contains the full copyright notices and license terms. -->
         <field name="text">The party "%(party)s" doesn\'t have bank account.</field>
     </record>
     <record model="ir.message" id="different_process_method">
-        <field name="text">Payment process method can not be mixed on payment groups.
-            Payment process "%(process)s" of line "%(payment)s" is diferent from previous payment process "%(pprocess)s"</field>
+        <field name="text">Payment process method can not be mixed on payment groups. Payment process "%(process)s" of line "%(payment)s" is diferent from previous payment process "%(pprocess)s"</field>
     </record>
     <record model="ir.message" id="non_posted_move">
-        <field name="text">You can not pay line "%(line)s" because
-              its move "%(move)s" is not posted.'</field>
+        <field name="text">You can not pay line "%(line)s" because its move "%(move)s" is not posted.'</field>
     </record>
     </data>
 </tryton>
