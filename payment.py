@@ -397,7 +397,7 @@ class ProcessPaymentStart(metaclass=PoolMeta):
                                 payment.journal.process_method
                                 or ''),
                             payment=payment.rec_name,
-                            pprocess=ppprocess_method))
+                            pprocess=process_method))
             payments_amount += payment.amount
         res['process_method'] = process_method
         res['payments_amount'] = payments_amount
