@@ -458,7 +458,7 @@ class CreatePaymentGroupStart(ModelView):
                         line=line.rec_name,
                         move=line.move.rec_name,
                         ))
-            payments_amount += line.payment_amount
+            payments_amount += line.payment_amount or Decimal(0)
         res['payments_amount'] = payments_amount
         return res
 
