@@ -294,7 +294,8 @@ class CreatePaymentGroup(Wizard):
         payments = Payment.browse(data['res_id'])
         Payment.approve(payments)
 
-        with Transaction().set_context(active_ids=data['res_id']):
+        with Transaction().set_context(active_ids=data['res_id'],
+                active_model='account.payment'):
             session_id, _, _ = ProcessPayment.create()
             processpayment = ProcessPayment(session_id)
             processpayment.start.join = self.start.join
