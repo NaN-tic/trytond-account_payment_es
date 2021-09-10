@@ -3,13 +3,7 @@
 The COPYRIGHT file at the top level of this repository contains the full
 copyright notices and license terms. -->
 <data>
-    <xpath expr="/form/field[@name=&quot;process_method&quot;]"
-            position="after">
-        <label name="active"/>
-        <field name="active"/>
-    </xpath>
-    <xpath expr="/form/field[@name=&quot;payment_type&quot;]"
-            position="after">
+    <xpath expr="/form/field[@name='payment_type']" position="after">
         <label name="require_bank_account"/>
         <field name="require_bank_account"/>
         <label name="suffix"/>

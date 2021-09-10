@@ -3,9 +3,6 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 from decimal import Decimal
-
-from stdnum.es.ccc import is_valid
-
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
@@ -99,7 +96,6 @@ class BankAccount(metaclass=PoolMeta):
 
 class Journal(metaclass=PoolMeta):
     __name__ = 'account.payment.journal'
-    active = fields.Boolean('Active', select=True)
     require_bank_account = fields.Boolean('Require bank account',
         help=('If your bank allows you to send payment groups without the bank'
             ' account info, you may disable this option.'))
@@ -114,10 +110,6 @@ class Journal(metaclass=PoolMeta):
         cls.party.states.update({
                 'required': ~Eval('process_method').in_(['manual', 'sepa']),
                 })
-
-    @staticmethod
-    def default_active():
-        return True
 
     @staticmethod
     def default_suffix():
