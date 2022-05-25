@@ -67,7 +67,7 @@ Create payable move::
     >>> move = Move()
     >>> move.journal = expense
     >>> line = move.lines.new(account=payable, party=supplier,
-    ...     credit=Decimal('50.00'))
+    ...     credit=Decimal('50.00'), maturity_date=today)
     >>> line = move.lines.new(account=expense, debit=Decimal('50.00'))
     >>> move.click('post')
 
