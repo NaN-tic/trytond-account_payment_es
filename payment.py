@@ -285,11 +285,6 @@ class CreatePaymentGroup(Wizard):
         PayLine.delete(session_id)
         payments = Payment.browse(data['res_id'])
         Payment.submit(payments)
-        to_approve = []
-        for payment in payments:
-            if payment.kind != 'receivable':
-                to_approve.append(payment)
-        Payment.approve(to_approve)
 
         with Transaction().set_context(active_id=None, active_ids=data['res_id'],
                 active_model='account.payment'):
