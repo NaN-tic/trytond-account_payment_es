@@ -35,23 +35,36 @@ Create chart of accounts::
     >>> _ = create_chart(company)
     >>> accounts = get_accounts(company)
     >>> payable = accounts['payable']
+    >>> expense = accounts['expense']
+    >>> revenue = accounts['revenue']
+    >>> receivable = accounts['receivable']
 
     >>> Journal = Model.get('account.journal')
-    >>> expense, = Journal.find([('code', '=', 'EXP')])
+    >>> expense_journal, = Journal.find([('code', '=', 'EXP')])
+    >>> revenue_journal, = Journal.find([('code', '=', 'REV')])
 
 Create payment_type::
 
     >>> PaymentType = Model.get('account.payment.type')
-    >>> payment_type = PaymentType(name='Bank Account')
+    >>> payment_type = PaymentType(name='Bank Account Payable')
     >>> payment_type.save()
+    >>> PaymentType = Model.get('account.payment.type')
+    >>> payment_type_receivable = PaymentType(name='Bank Account Receivable')
+    >>> payment_type_receivable.kind = 'receivable'
+    >>> payment_type_receivable.save()
 
 Create payment journal::
 
     >>> PaymentJournal = Model.get('account.payment.journal')
-    >>> payment_journal = PaymentJournal(name='Manual',
+    >>> payment_journal_payable = PaymentJournal(name='Manual',
     ...     process_method='manual')
-    >>> payment_journal.payment_type = payment_type
-    >>> payment_journal.save()
+    >>> payment_journal_payable.payment_type = payment_type
+    >>> payment_journal_payable.save()
+
+    >>> payment_journal_receivable = PaymentJournal(name='Manual',
+    ...     process_method='manual')
+    >>> payment_journal_receivable.payment_type = payment_type_receivable
+    >>> payment_journal_receivable.save()
 
 Create parties::
 
@@ -65,7 +78,7 @@ Create payable move::
 
     >>> Move = Model.get('account.move')
     >>> move = Move()
-    >>> move.journal = expense
+    >>> move.journal = expense_journal
     >>> line = move.lines.new(account=payable, party=supplier,
     ...     credit=Decimal('50.00'), maturity_date=today)
     >>> line = move.lines.new(account=expense, debit=Decimal('50.00'))
@@ -76,13 +89,42 @@ Create a payment group for the line::
     >>> Payment = Model.get('account.payment')
     >>> line, = [l for l in move.lines if l.account == payable]
     >>> pay_line = Wizard('account.move.line.create_payment_group', [line])
-    >>> pay_line.form.journal = payment_journal
+    >>> pay_line.form.journal = payment_journal_payable
     >>> pay_line.form.planned_date = today
     >>> pay_line.execute('create_')
-    >>> payment, = Payment.find()
+    >>> payment, = Payment.find([('kind', '=', 'payable')])
+    >>> payment.group != None
+    True
     >>> payment.party == supplier
     True
     >>> payment.amount
     Decimal('50.00')
     >>> payment.state
-    'submitted'
+    'processing'
+
+Create receivable move::
+
+    >>> move = Move()
+    >>> move.journal = revenue_journal
+    >>> line = move.lines.new(account=receivable, party=customer,
+    ...     debit=Decimal('50.00'), maturity_date=today)
+    >>> line = move.lines.new(account=revenue, credit=Decimal('50.00'))
+    >>> move.click('post')
+
+Create a payment group for the line::
+
+    >>> Payment = Model.get('account.payment')
+    >>> line, = [l for l in move.lines if l.account == receivable]
+    >>> pay_line = Wizard('account.move.line.create_payment_group', [line])
+    >>> pay_line.form.journal = payment_journal_receivable
+    >>> pay_line.form.planned_date = today
+    >>> pay_line.execute('create_')
+    >>> payment, = Payment.find([('kind', '=', 'receivable')])
+    >>> payment.group != None
+    True
+    >>> payment.party == customer
+    True
+    >>> payment.amount
+    Decimal('50.00')
+    >>> payment.state
+    'processing'
