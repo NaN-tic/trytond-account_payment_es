@@ -284,6 +284,8 @@ class CreatePaymentGroup(Wizard):
         action, data = payline.do_pay(action)
         PayLine.delete(session_id)
         payments = Payment.browse(data['res_id'])
+        # Warn when submitting, approving or proceeding payment with reconciled line
+        Payment._check_reconciled(payments)
         Payment.submit(payments)
         # allow create groups from receivable issues11190
         to_approve = [payment for payment in payments
