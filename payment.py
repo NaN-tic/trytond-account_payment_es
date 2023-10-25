@@ -157,7 +157,7 @@ class Payment(metaclass=PoolMeta):
     __name__ = 'account.payment'
 
     @classmethod
-    def keyfunc(cls, x):
+    def join_payment_keyfunc(cls, x):
         return (x.currency, x.party)
 
     @property
@@ -168,8 +168,8 @@ class Payment(metaclass=PoolMeta):
     @classmethod
     def get_join_payments(cls, payments):
         new_payments = []
-        payments = sorted(payments, key=cls.keyfunc)
-        for key, grouped in groupby(payments, cls.keyfunc):
+        payments = sorted(payments, key=cls.join_payment_keyfunc)
+        for key, grouped in groupby(payments, cls.join_payment_keyfunc):
             amount = 0
             date = None
             payment_description = []
