@@ -3,6 +3,7 @@
 # The COPYRIGHT file at the top level of this repository contains
 # the full copyright notices and license terms.
 from decimal import Decimal
+from itertools import groupby
 from trytond.model import ModelView, fields
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
@@ -10,17 +11,6 @@ from trytond.wizard import Wizard, StateView, StateAction, Button
 from trytond.transaction import Transaction
 from trytond.i18n import gettext
 from trytond.exceptions import UserError
-
-__all__ = [
-    'BankAccount',
-    'Journal',
-    'Group',
-    'PayLine',
-    'ProcessPaymentStart',
-    'ProcessPayment',
-    'CreatePaymentGroupStart',
-    'CreatePaymentGroup',
-    ]
 
 province = {
     'none': '',
@@ -163,6 +153,48 @@ class PayLine(metaclass=PoolMeta):
         return payment
 
 
+class Payment(metaclass=PoolMeta):
+    __name__ = 'account.payment'
+
+    @classmethod
+    def keyfunc(cls, x):
+        return (x.currency, x.party)
+
+    @property
+    def get_join_description(self):
+        # get_sepa_end_to_end_id return self.id from account_payment_sepa_es module
+        return str(self.id)
+
+    @classmethod
+    def get_join_payments(cls, payments):
+        new_payments = []
+        payments = sorted(payments, key=cls.keyfunc)
+        for key, grouped in groupby(payments, cls.keyfunc):
+            amount = 0
+            date = None
+            payment_description = []
+            for payment in grouped:
+                amount += payment.amount
+                payment_description.append(payment.get_join_description)
+                if not date or payment.date > date:
+                    date = payment.date
+
+            payment.amount = amount
+            payment.line = None
+            payment.description = ','.join(payment_description)[:35]
+            payment.date = date
+            new_payments.append(payment)
+        return new_payments
+
+    @classmethod
+    def process(cls, payments, group):
+        # in case join payments in the context, group payments in one record
+        if Transaction().context.get('join_payments'):
+            payments = cls.get_join_payments(payments)
+            cls.save(payments)
+        return super().process(payments, group)
+
+
 class ProcessPaymentStart(metaclass=PoolMeta):
     __name__ = 'account.payment.process.start'
     join = fields.Boolean('Join lines', depends=['process_method'],
@@ -183,7 +215,7 @@ class ProcessPaymentStart(metaclass=PoolMeta):
 
         process_method = False
         payments_amount = Decimal('0.0')
-        for payment in self.records:
+        for payment in Payment.browse(Transaction().context['active_ids']):
             if not process_method:
                 process_method = payment.journal.process_method
             else:
