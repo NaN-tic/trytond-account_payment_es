@@ -183,7 +183,7 @@ class ProcessPaymentStart(metaclass=PoolMeta):
 
         process_method = False
         payments_amount = Decimal('0.0')
-        for payment in Payment.browse(Transaction().context['active_ids']):
+        for payment in self.records:
             if not process_method:
                 process_method = payment.journal.process_method
             else:
@@ -214,7 +214,8 @@ class ProcessPayment(metaclass=PoolMeta):
     def do_process(self, action):
         pool = Pool()
         Payment = pool.get('account.payment')
-        payments = Payment.browse(Transaction().context['active_ids'])
+
+        payments = self.records
 
         if self.start.planned_date:
             for payment in payments:
