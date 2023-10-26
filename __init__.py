@@ -10,6 +10,7 @@ def register():
         payment.BankAccount,
         payment.Journal,
         payment.Group,
+        payment.Payment,
         payment.ProcessPaymentStart,
         payment.CreatePaymentGroupStart,
         module='account_payment_es', type_='model')
