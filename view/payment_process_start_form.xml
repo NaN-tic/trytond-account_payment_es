@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<!-- This file is part account_payment_es module for Tryton.
-The COPYRIGHT file at the top level of this repository contains the full
-copyright notices and license terms. -->
-<data>
-    <xpath expr="/form/label[@id=&quot;process&quot;]"
-            position="after">
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<form col="2">
+    <image name="tryton-warning" xexpand="0" xfill="0"/>
+    <label string="Process Payments?" id="process"
+        yalign="0.0" xalign="0.0" xexpand="1"/>
         <label name="join"/>
         <field name="join"/>
         <label name="planned_date"/>
@@ -13,5 +13,4 @@ copyright notices and license terms. -->
         <field name="payments_amount"/>
         <label string="If the planned date is set, the data field of all the payments will be updated with this date before creating the payment group."
             colspan="2" xalign="0.0" xexpand="1" id="planned_date_help"/>
-    </xpath>
-</data>
+</form>

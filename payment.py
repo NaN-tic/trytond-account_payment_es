@@ -195,7 +195,8 @@ class Payment(metaclass=PoolMeta):
         return super().process(payments, group)
 
 
-class ProcessPaymentStart(metaclass=PoolMeta):
+class ProcessPaymentStart(ModelView):
+    'Process Payment'
     __name__ = 'account.payment.process.start'
     join = fields.Boolean('Join lines', depends=['process_method'],
         help='Join payment lines of the same bank account.')
@@ -235,6 +236,12 @@ class ProcessPaymentStart(metaclass=PoolMeta):
 
 class ProcessPayment(metaclass=PoolMeta):
     __name__ = 'account.payment.process'
+    start_state = 'start'
+    start = StateView('account.payment.process.start',
+        'account_payment_es.payment_process_start_view_form', [
+            Button('Cancel', 'end', 'tryton-cancel'),
+            Button('Process', 'process', 'tryton-ok', default=True),
+            ])
 
     def _group_payment_key(self, payment):
         res = list(super(ProcessPayment, self)._group_payment_key(payment))
