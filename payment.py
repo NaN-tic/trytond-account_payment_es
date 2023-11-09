@@ -280,7 +280,6 @@ class CreatePaymentGroupStart(ModelView):
     payments_amount = fields.Numeric('Payments Amount', digits=(16, 2),
         readonly=True)
 
-
     @classmethod
     def default_get(cls, fields, with_rec_name=True):
         pool = Pool()

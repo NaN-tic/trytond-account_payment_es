@@ -3,38 +3,38 @@
 this repository contains the full copyright notices and license terms. -->
 <tryton>
     <data grouped="1">
-    <record model="ir.message" id="company_without_complete_address">
-        <field name="text">The company %(company)s has no a complete address to add to the file.</field>
-    </record>
-    <record model="ir.message" id="party_without_address">
-        <field name="text">The party %(party)s has no any address to add to the file.</field>
-    </record>
-    <record model="ir.message" id="party_without_complete_address">
-      <field name="text">The party %(party)s has no a complete address to build the file.</field>
-    </record>
-    <record model="ir.message" id="party_without_province">
-        <field name="text">The party %(party)s has no any province assigned at its address</field>
-    </record>
-    <record model="ir.message" id="party_without_vat_code">
-        <field name="text">The party %(party)s has no any vat number.</field>
-    </record>
-    <record model="ir.message" id="wrong_payment_journal">
-        <field name="text">The payment journal has no norm to build a file.</field>
-    </record>
-    <record model="ir.message" id="unknown_error">
-        <field name="text">Unknown error. An error occurred creating the file.</field>
-    </record>
-    <record model="ir.message" id="remittance">
-        <field name="text">remittance</field>
-    </record>
-    <record model="ir.message" id="configuration_error">
-        <field name="text">Configuration Error!</field>
-    </record>
-    <record model="ir.message" id="different_process_method">
-        <field name="text">Payment process method can not be mixed on payment groups. Payment process "%(process)s" of line "%(payment)s" is diferent from previous payment process "%(pprocess)s"</field>
-    </record>
-    <record model="ir.message" id="non_posted_move">
-        <field name="text">You can not pay line "%(line)s" because its move "%(move)s" is not posted.'</field>
-    </record>
+        <record model="ir.message" id="company_without_complete_address">
+            <field name="text">The company %(company)s has no a complete address to add to the file.</field>
+        </record>
+        <record model="ir.message" id="party_without_address">
+            <field name="text">The party %(party)s has no any address to add to the file.</field>
+        </record>
+        <record model="ir.message" id="party_without_complete_address">
+          <field name="text">The party %(party)s has no a complete address to build the file.</field>
+        </record>
+        <record model="ir.message" id="party_without_province">
+            <field name="text">The party %(party)s has no any province assigned at its address</field>
+        </record>
+        <record model="ir.message" id="party_without_vat_code">
+            <field name="text">The party %(party)s has no any vat number.</field>
+        </record>
+        <record model="ir.message" id="wrong_payment_journal">
+            <field name="text">The payment journal has no norm to build a file.</field>
+        </record>
+        <record model="ir.message" id="unknown_error">
+            <field name="text">Unknown error. An error occurred creating the file.</field>
+        </record>
+        <record model="ir.message" id="remittance">
+            <field name="text">remittance</field>
+        </record>
+        <record model="ir.message" id="configuration_error">
+            <field name="text">Configuration Error!</field>
+        </record>
+        <record model="ir.message" id="different_process_method">
+            <field name="text">Payment process method can not be mixed on payment groups. Payment process "%(process)s" of line "%(payment)s" is diferent from previous payment process "%(pprocess)s"</field>
+        </record>
+        <record model="ir.message" id="non_posted_move">
+            <field name="text">You can not pay line "%(line)s" because its move "%(move)s" is not posted.'</field>
+        </record>
     </data>
 </tryton>
