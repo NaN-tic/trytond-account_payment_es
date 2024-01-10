@@ -198,9 +198,9 @@ class Payment(metaclass=PoolMeta):
 class ProcessPaymentStart(ModelView):
     'Process Payment'
     __name__ = 'account.payment.process.start'
-    join = fields.Boolean('Join lines', depends=['process_method'],
+    join = fields.Boolean('Join lines',
         help='Join payment lines of the same bank account.')
-    planned_date = fields.Date('Planned Date', depends=['process_method'],
+    planned_date = fields.Date('Planned Date',
         help='Date when the payment entity must process the payment group.')
     process_method = fields.Char('Process Method')
     payments_amount = fields.Numeric('Payments Amount', digits=(16, 2),
