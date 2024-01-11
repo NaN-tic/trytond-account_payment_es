@@ -108,10 +108,8 @@ class Journal(metaclass=PoolMeta):
 
 class Group(metaclass=PoolMeta):
     __name__ = 'account.payment.group'
-    join = fields.Boolean('Join lines', readonly=True,
-        depends=['process_method'])
-    planned_date = fields.Date('Planned Date', readonly=True,
-        depends=['process_method'])
+    join = fields.Boolean('Join lines', readonly=True)
+    planned_date = fields.Date('Planned Date', readonly=True)
     process_method = fields.Function(fields.Char('Process Method'),
         'get_process_method')
 
