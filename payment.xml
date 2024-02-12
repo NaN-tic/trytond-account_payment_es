@@ -47,11 +47,5 @@ copyright notices and license terms. -->
             <field name="wiz_name">account.move.line.create_payment_group</field>
             <field name="model">account.move.line</field>
         </record>
-        <record model="ir.action.keyword"
-            id="act_create_payment_group_line_keyword1">
-            <field name="keyword">form_action</field>
-            <field name="model">account.move.line,-1</field>
-            <field name="action" ref="act_create_payment_group_line"/>
-        </record>
     </data>
 </tryton>
