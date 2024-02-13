@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!-- This file is part of Tryton.  The COPYRIGHT file at the top level of
+this repository contains the full copyright notices and license terms. -->
+<tryton>
+    <data>
+        <record model="ir.ui.view" id="move_line_view_list">
+            <field name="model">account.move.line</field>
+            <field name="inherit"
+                ref="account_payment.move_line_view_list"/>
+            <field name="name">move_line_list</field>
+        </record>
+
+        <record model="ir.model.button" id="create_payment_group_button">
+            <field name="name">create_payment_group</field>
+            <field name="string">Create Payment Groups</field>
+            <field name="model" search="[('model', '=', 'account.move.line')]"/>
+        </record>
+        <record model="ir.model.button-res.group" id="create_payment_group_button_group_payment">
+            <field name="button" ref="create_payment_group_button"/>
+            <field name="group" ref="account_payment.group_payment"/>
+        </record>
+    </data>
+</tryton>
