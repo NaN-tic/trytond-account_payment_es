@@ -13,7 +13,7 @@ this repository contains the full copyright notices and license terms. -->
         <record model="ir.model.button" id="create_payment_group_button">
             <field name="name">create_payment_group</field>
             <field name="string">Create Payment Groups</field>
-            <field name="model" search="[('model', '=', 'account.move.line')]"/>
+            <field name="model">account.move.line</field>
         </record>
         <record model="ir.model.button-res.group" id="create_payment_group_button_group_payment">
             <field name="button" ref="create_payment_group_button"/>
