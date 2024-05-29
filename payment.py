@@ -213,7 +213,7 @@ class ProcessPaymentStart(ModelView):
             with_rec_name)
 
         process_method = False
-        payments_amount = Decimal('0.0')
+        payments_amount = Decimal(0)
         for payment in Payment.browse(Transaction().context['active_ids']):
             if not process_method:
                 process_method = payment.journal.process_method
@@ -285,7 +285,7 @@ class CreatePaymentGroupStart(ModelView):
         res = super(CreatePaymentGroupStart, cls).default_get(fields,
             with_rec_name)
 
-        payments_amount = Decimal('0.0')
+        payments_amount = Decimal(0)
         for line in Line.browse(Transaction().context.get('active_ids', [])):
             if line.move.state != 'posted':
                 raise UserError(gettext('account_payment_es.non_posted_move',
