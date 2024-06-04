@@ -30,8 +30,6 @@ copyright notices and license terms. -->
         <!-- account.payment.process.start -->
         <record model="ir.ui.view" id="payment_process_start_view_form">
             <field name="model">account.payment.process.start</field>
-            <!-- Required for databases upgrading to version 7.2 -->
-            <field name="inherit" eval="None"/>
             <field name="type">form</field>
             <field name="name">payment_process_start_form</field>
         </record>
