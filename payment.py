@@ -4,7 +4,7 @@
 # the full copyright notices and license terms.
 from decimal import Decimal
 from itertools import groupby
-from trytond.model import ModelView, fields
+from trytond.model import ModelView, fields, ModelSQL
 from trytond.pool import Pool, PoolMeta
 from trytond.pyson import Eval
 from trytond.wizard import Wizard, StateView, StateAction, Button
@@ -154,6 +154,14 @@ class PayLine(metaclass=PoolMeta):
 class Payment(metaclass=PoolMeta):
     __name__ = 'account.payment'
 
+    reconciliation = fields.Function(fields.Many2One(
+            'account.move.reconciliation', 'Reconciliation',
+            readonly=True, ondelete='SET NULL'), 'get_reconciliation',
+        searcher='search_reconciliation')
+    move_origin = fields.Function(
+        fields.Reference("Move Origin", selection='get_move_origin'),
+        'get_move_field', searcher='search_move_field')
+
     @classmethod
     def join_payment_keyfunc(cls, x):
         return (x.currency, x.party)
@@ -171,18 +179,54 @@ class Payment(metaclass=PoolMeta):
             amount = 0
             date = None
             payment_description = []
+            payment = None
             for payment in grouped:
                 amount += payment.amount
                 payment_description.append(payment.get_join_description)
                 if not date or payment.date > date:
                     date = payment.date
 
-            payment.amount = amount
-            payment.line = None
-            payment.description = ','.join(payment_description)[:35]
-            payment.date = date
-            new_payments.append(payment)
+            if payment:
+                payment.amount = amount
+                payment.line = None
+                payment.description = ','.join(payment_description)[:35]
+                payment.date = date
+                new_payments.append(payment)
         return new_payments
+
+    def get_reconciliation(self, name):
+        return (self.line.reconciliation.id
+            if self.line and self.line.reconciliation else None)
+
+    @classmethod
+    def search_reconciliation(cls, name, clause):
+        nested = clause[0][len(name):]
+        return [('line.reconciliation' + nested, *clause[1:])]
+
+    @classmethod
+    def get_move_origin(cls):
+        Move = Pool().get('account.move')
+        return Move.get_origin()
+
+    def get_move_field(self, name):
+        if not self.line and not self.line.move:
+            return None
+        field = getattr(self.__class__, name)
+        if name.startswith('move_'):
+            name = name[5:]
+        value = getattr(self.line.move, name)
+        if isinstance(value, ModelSQL):
+            if field._type == 'reference':
+                return str(value)
+            return value.id
+        return value
+
+    @classmethod
+    def search_move_field(cls, name, clause):
+        nested = clause[0][len(name):]
+        if name.startswith('move_'):
+            name = name[5:]
+        return [('line.move.' + name + nested, *clause[1:])]
 
     @classmethod
     def process(cls, payments, group):

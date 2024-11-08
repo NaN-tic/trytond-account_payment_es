@@ -18,6 +18,14 @@ msgctxt "field:account.move.line.create_payment_group.start,planned_date:"
 msgid "Planned Date"
 msgstr "Data de planificació"
 
+msgctxt "field:account.payment,move_origin:"
+msgid "Move Origin"
+msgstr "Orígen de l'assentament"
+
+msgctxt "field:account.payment,reconciliation:"
+msgid "Reconciliation"
+msgstr "Reconciliació"
+
 msgctxt "field:account.payment.group,join:"
 msgid "Join lines"
 msgstr "Ajunta línies"
