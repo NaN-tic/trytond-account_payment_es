@@ -211,8 +211,9 @@ class Payment(metaclass=PoolMeta):
         return Move.get_origin()
 
     def get_move_field(self, name):
-        if not self.line and not self.line.move:
-            return None
+        if not self.line or not self.line.move:
+            return
+
         field = getattr(self.__class__, name)
         if name.startswith('move_'):
             name = name[5:]
