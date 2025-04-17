@@ -162,38 +162,6 @@ class Payment(metaclass=PoolMeta):
         fields.Reference("Move Origin", selection='get_move_origin'),
         'get_move_field', searcher='search_move_field')
 
-    @classmethod
-    def join_payment_keyfunc(cls, x):
-        return (x.currency, x.party)
-
-    @property
-    def get_join_description(self):
-        # get_sepa_end_to_end_id return self.id from account_payment_sepa_es module
-        return str(self.id)
-
-    @classmethod
-    def get_join_payments(cls, payments):
-        new_payments = []
-        payments = sorted(payments, key=cls.join_payment_keyfunc)
-        for key, grouped in groupby(payments, cls.join_payment_keyfunc):
-            amount = 0
-            date = None
-            payment_description = []
-            payment = None
-            for payment in grouped:
-                amount += payment.amount
-                payment_description.append(payment.get_join_description)
-                if not date or payment.date > date:
-                    date = payment.date
-
-            if payment:
-                payment.amount = amount
-                payment.line = None
-                payment.description = ','.join(payment_description)[:35]
-                payment.date = date
-                new_payments.append(payment)
-        return new_payments
-
     def get_reconciliation(self, name):
         return (self.line.reconciliation.id
             if self.line and self.line.reconciliation else None)
@@ -228,14 +196,6 @@ class Payment(metaclass=PoolMeta):
         if name.startswith('move_'):
             name = name[5:]
         return [('line.move.' + name + nested, *clause[1:])]
-
-    @classmethod
-    def process(cls, payments, group):
-        # in case join payments in the context, group payments in one record
-        if Transaction().context.get('join_payments'):
-            payments = cls.get_join_payments(payments)
-            cls.save(payments)
-        return super().process(payments, group)
 
 
 class ProcessPaymentStart(ModelView):
@@ -304,8 +264,7 @@ class ProcessPayment(metaclass=PoolMeta):
                 payment.date = self.start.planned_date
             Payment.save(payments)
 
-        with Transaction().set_context(join_payments=self.start.join):
-            return super(ProcessPayment, self).do_process(action)
+        return super(ProcessPayment, self).do_process(action)
 
 
 class CreatePaymentGroupStart(ModelView):
