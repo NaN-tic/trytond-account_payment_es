@@ -5,8 +5,6 @@ copyright notices and license terms. -->
 <data>
     <xpath expr="/form/field[@name=&quot;payment_type&quot;]"
             position="after">
-        <label name="join"/>
-        <field name="join"/>
         <label name="planned_date"/>
         <field name="planned_date"/>
     </xpath>

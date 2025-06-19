@@ -5,8 +5,6 @@ this repository contains the full copyright notices and license terms. -->
     <image name="tryton-warning" xexpand="0" xfill="0"/>
     <label string="Process Payments?" id="process"
         yalign="0.0" xalign="0.0" xexpand="1"/>
-        <label name="join"/>
-        <field name="join"/>
         <label name="planned_date"/>
         <field name="planned_date"/>
         <label name="payments_amount"/>

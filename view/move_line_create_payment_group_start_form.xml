@@ -4,8 +4,6 @@
 <form>
     <label name="journal"/>
     <field name="journal"/>
-    <label name="join"/>
-    <field name="join"/>
     <label name="planned_date"/>
     <field name="planned_date"/>
     <label name="payments_amount"/>
